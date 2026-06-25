@@ -1,0 +1,53 @@
+# ==========================================
+# 1. ARCHIVOS GLOBALES Y DEL SISTEMA
+# ==========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# ==========================================
+# 2. FRONTEND (React / Vite / Rsbuild / Next)
+# ==========================================
+frontend-react/node_modules/
+frontend-react/dist/
+frontend-react/build/
+frontend-react/.next/
+frontend-react/out/
+frontend-react/.env
+frontend-react/.env.local
+frontend-react/.env.development.local
+frontend-react/.env.test.local
+frontend-react/.env.production.local
+frontend-react/npm-debug.log*
+frontend-react/yarn-debug.log*
+frontend-react/yarn-error.log*
+
+# ==========================================
+# 3. BACKEND (Spring Boot / Java)
+# ==========================================
+backend-springboot/target/
+backend-springboot/.gradle/
+backend-springboot/build/
+backend-springboot/.settings/
+backend-springboot/.classpath
+backend-springboot/.project
+backend-springboot/*.class
+backend-springboot/*.jar
+backend-springboot/*.war
+backend-springboot/bin/
+backend-springboot/HELP.md
+
+# Archivos de configuración locales del Backend (Credenciales de BD)
+backend-springboot/src/main/resources/application-local.properties
+backend-springboot/src/main/resources/application.yaml.local
+
+# ==========================================
+# 4. BASE DE DATOS
+# ==========================================
