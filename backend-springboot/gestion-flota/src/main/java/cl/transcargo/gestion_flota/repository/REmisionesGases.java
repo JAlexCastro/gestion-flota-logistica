@@ -4,4 +4,4 @@ import cl.transcargo.gestion_flota.entity.EmisionesGases;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface RREmisionesGases extends JpaRepository<EmisionesGases, Long> {}
+public interface REmisionesGases extends JpaRepository<EmisionesGases, Long> {}

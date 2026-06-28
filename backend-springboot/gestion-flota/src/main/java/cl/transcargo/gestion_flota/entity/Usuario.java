@@ -24,6 +24,7 @@ public class Usuario {
     @Column(nullable = false, length = 20)
     private String rol;
 
+
     @OneToOne(mappedBy = "usuario")
     private Conductor conductor;
 }

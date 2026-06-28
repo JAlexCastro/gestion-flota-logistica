@@ -11,11 +11,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/vehiculo")
-public class Vehiculo {
+public class VehiculoController {
 
     private final VehiculoServiceImpl service;
 
-    Vehiculo(VehiculoServiceImpl service) {
+    VehiculoController(VehiculoServiceImpl service) {
         this.service = service;
     }
 
