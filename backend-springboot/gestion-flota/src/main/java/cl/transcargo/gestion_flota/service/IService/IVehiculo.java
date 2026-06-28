@@ -1,19 +1,19 @@
 package cl.transcargo.gestion_flota.service.IService;
 
-import cl.transcargo.gestion_flota.dto.Requests.VehiculoRequest;
-import cl.transcargo.gestion_flota.dto.Responses.VehiculoResponse;
+import cl.transcargo.gestion_flota.dto.Requests.VehiculoRequestDTO;
+import cl.transcargo.gestion_flota.dto.Responses.VehiculoResponseDTO;
 
 import java.util.List;
 
 public interface IVehiculo {
 
-    List<VehiculoResponse> listar();
+    List<VehiculoResponseDTO> listar();
 
-    VehiculoResponse obtener(Long id);
+    VehiculoResponseDTO obtener(Long id);
 
-    VehiculoResponse crear(VehiculoRequest request);
+    VehiculoResponseDTO crear(VehiculoRequestDTO request);
 
-    VehiculoResponse actualizar(Long id, VehiculoRequest request);
+    VehiculoResponseDTO actualizar(Long id, VehiculoRequestDTO request);
 
     void eliminar(Long id);
 

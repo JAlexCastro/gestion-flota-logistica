@@ -9,13 +9,14 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class VehiculoRequest {
+public class VehiculoRequestDTO {
 
     private String patente;
     private String marca;
     private String modelo;
     private Integer anio;
     private Integer kilometrajeActual;
-    private Long conductorId;
+    private String estado;
+    //private Long conductorId;
 
 }

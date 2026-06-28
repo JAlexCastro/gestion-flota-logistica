@@ -35,7 +35,7 @@ public class Vehiculo {
     private String estado;
 
     @ManyToOne
-    @JoinColumn(name = "conductor_id", nullable = false)
+    @JoinColumn(name = "conductor_id", nullable = true)
     private Conductor conductor;
 
     @OneToMany(mappedBy = "vehiculo")

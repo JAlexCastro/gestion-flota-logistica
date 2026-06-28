@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class VehiculoResponse {
+public class VehiculoResponseDTO {
 
     private Long id;
     private String patente;
@@ -17,6 +17,7 @@ public class VehiculoResponse {
     private String modelo;
     private Integer anio;
     private Integer kilometrajeActual;
-    private String conductor;
+    private String estado;
+    //private String conductor;
 
 }
