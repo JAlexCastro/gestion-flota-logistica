@@ -1,11 +1,12 @@
-import './App.css';
+import AppRoutes from "./routes/AppRoutes";
+import { LayoutProvider } from "./context/LayoutContext";
 
 const App = () => {
-  return (
-    <div className="content">
-      <h1>Proyecto Gestor de Flota</h1>
-    </div>
-  );
+    return (
+        <LayoutProvider>
+            <AppRoutes />
+        </LayoutProvider>
+    );
 };
 
 export default App;

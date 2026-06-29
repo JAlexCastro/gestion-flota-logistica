@@ -1,0 +1,55 @@
+.conductor-form{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:15px;
+
+}
+
+.conductor-form input{
+
+    padding:10px;
+
+    border:1px solid #ccc;
+
+    border-radius:6px;
+
+    font-size:14px;
+
+}
+
+.conductor-form button{
+
+    grid-column:1/-1;
+
+    background:#0f4c81;
+
+    color:white;
+
+    border:none;
+
+    padding:12px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+}
+
+.conductor-form button:hover{
+
+    background:#0c3b64;
+
+}
+
+@media(max-width:768px){
+
+    .conductor-form{
+
+        grid-template-columns:1fr;
+
+    }
+
+}

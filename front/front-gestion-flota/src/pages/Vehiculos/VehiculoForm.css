@@ -1,0 +1,43 @@
+.vehiculo-form {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+    background: white;
+}
+
+/* inputs */
+.vehiculo-form input {
+
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+
+}
+
+/* botón ocupa toda la fila */
+.vehiculo-form button {
+
+    grid-column: 1 / -1;
+
+    background: #003366;
+    color: white;
+
+    border: none;
+    padding: 12px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+}
+
+/* 🔥 RESPONSIVE */
+@media (max-width: 768px) {
+
+    .vehiculo-form {
+        grid-template-columns: 1fr;
+    }
+
+}

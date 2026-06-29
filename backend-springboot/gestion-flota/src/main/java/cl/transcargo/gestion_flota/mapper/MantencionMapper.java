@@ -40,6 +40,7 @@ public class MantencionMapper {
         response.setTipo(mantencion.getTipo());
         response.setDescripcion(mantencion.getDescripcion());
         response.setTaller(mantencion.getTaller());
+        response.setPatente(mantencion.getVehiculo().getPatente());
 
         return response;
     }

@@ -23,6 +23,6 @@ public class ConductorRequestDTO {
 
     private LocalDate fechaVencimientoLicencia;
 
-    private Long usuarioId;
+    ///private Long usuarioId;
 
 }

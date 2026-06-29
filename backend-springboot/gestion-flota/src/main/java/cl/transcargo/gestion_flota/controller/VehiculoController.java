@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/vehiculo")
+@RequestMapping("/vehiculos")
 public class VehiculoController {
 
     private final VehiculoServiceImpl service;
@@ -33,7 +33,6 @@ public class VehiculoController {
 
         return ResponseEntity.ok(response);
 
-        //return service.listar();
     }
 
     // Guardar vehiculo

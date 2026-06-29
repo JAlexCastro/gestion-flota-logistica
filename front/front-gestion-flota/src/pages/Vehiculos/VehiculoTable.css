@@ -1,0 +1,79 @@
+table {
+
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+
+    overflow-x: auto;
+}
+
+th {
+
+    background: #003366;
+    color: white;
+    padding: 12px;
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+td {
+
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+
+    white-space: nowrap;
+}
+
+tr:hover {
+    background: #f3f3f3;
+}
+
+/* 🔥 RESPONSIVE */
+@media (max-width: 768px) {
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    th, td {
+        font-size: 13px;
+        padding: 10px;
+    }
+}
+
+
+
+
+
+
+
+
+
+.btn{
+    color:white;
+    border:none;
+    padding:12px 20px;
+    margin-left: 3px;
+    cursor:pointer;
+    border-radius:6px;
+
+}
+
+.btn:hover{
+    opacity: 0.7;
+}
+
+.btn-edit{
+
+    background:#af9e05;
+
+}
+
+.btn-delete{
+
+    background:#b10614;
+
+}

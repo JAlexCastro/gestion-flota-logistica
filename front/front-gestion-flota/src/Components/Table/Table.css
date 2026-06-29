@@ -1,0 +1,146 @@
+
+.table-container {
+
+    width: 100%;
+    overflow-x: auto;
+
+    background: #fff;
+
+    border-radius: 10px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+
+}
+
+.erp-table {
+
+    width: 100%;
+    min-width: 900px;
+
+    border-collapse: collapse;
+
+}
+
+.erp-table thead {
+
+    background: #0f4c81;
+
+    color: white;
+
+}
+
+.erp-table th {
+
+    padding: 14px 18px;
+
+    text-align: left;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+}
+
+.erp-table td {
+
+    padding: 14px 18px;
+
+    border-bottom: 1px solid #ececec;
+
+    font-size: 14px;
+
+}
+
+.erp-table tbody tr:hover {
+
+    background: #f7f9fc;
+
+}
+
+/* BOTONES */
+
+.table-actions{
+
+    display:flex;
+
+    gap:8px;
+
+}
+
+.btn-edit{
+
+    background:#1976d2;
+
+    color:white;
+
+    border:none;
+
+    padding:7px 12px;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+}
+
+.btn-edit:hover{
+
+    background:#125ea8;
+
+}
+
+.btn-delete{
+
+    background:#d32f2f;
+
+    color:white;
+
+    border:none;
+
+    padding:7px 12px;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+}
+
+.btn-delete:hover{
+
+    background:#b71c1c;
+
+}
+
+.btn-primary{
+
+    background:#0f4c81;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 14px;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+}
+
+.btn-primary:hover{
+
+    background:#0c3b64;
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+    .erp-table{
+
+        min-width:700px;
+
+    }
+
+}

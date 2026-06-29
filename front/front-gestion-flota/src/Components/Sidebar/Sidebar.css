@@ -1,0 +1,72 @@
+.sidebar {
+
+    background: #1d2939;
+    color: white;
+
+    height: calc(100vh - 60px);
+
+    transition: 0.3s;
+
+    display: flex;
+    flex-direction: column;
+
+    padding-top: 10px;
+
+}
+
+/* LINKS */
+.sidebar a {
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    color: white;
+    text-decoration: none;
+
+    padding: 14px 16px;
+
+    transition: 0.2s;
+
+}
+
+/* icono */
+.icon {
+    font-size: 18px;
+}
+
+/* texto */
+.text {
+    transition: opacity 0.2s;
+    white-space: nowrap;
+}
+
+/* EXPANDIDO */
+.sidebar.open {
+    width: 240px;
+}
+
+/* COLAPSADO */
+.sidebar.collapsed {
+    width: 70px;
+}
+
+/* OCULTAR TEXTO EN COLLAPSE */
+.sidebar.collapsed .text {
+
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    display: none;
+
+}
+
+/* centrar iconos cuando está colapsado */
+.sidebar.collapsed a {
+
+    justify-content: center;
+
+    padding: 14px 0;
+
+}

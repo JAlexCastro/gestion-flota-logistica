@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConductorMapper {
 
-    public Conductor toEntity(ConductorRequestDTO request, Usuario usuario){
+    public Conductor toEntity(ConductorRequestDTO request){
 
         Conductor conductor = new Conductor();
 
@@ -18,7 +18,7 @@ public class ConductorMapper {
         conductor.setTelefono(request.getTelefono());
         conductor.setNumeroLicencia(request.getNumeroLicencia());
         conductor.setFechaVencimientoLicencia(request.getFechaVencimientoLicencia());
-        conductor.setUsuario(usuario);
+        ///conductor.setUsuario(usuario);
 
         return conductor;
     }
@@ -34,25 +34,22 @@ public class ConductorMapper {
         response.setNumeroLicencia(conductor.getNumeroLicencia());
         response.setFechaVencimientoLicencia(conductor.getFechaVencimientoLicencia());
 
-        if(conductor.getUsuario() != null){
-            response.setUsuarioId(conductor.getUsuario().getId());
-            response.setUsername(conductor.getUsuario().getUsername());
-        }
+//        if(conductor.getUsuario() != null){
+//            response.setUsuarioId(conductor.getUsuario().getId());
+//            response.setUsername(conductor.getUsuario().getUsername());
+//        }
 
         return response;
     }
 
     public void updateEntity(Conductor conductor,
-                             ConductorRequestDTO request,
-                             Usuario usuario){
+                             ConductorRequestDTO request) {
 
         conductor.setRut(request.getRut());
         conductor.setNombre(request.getNombre());
         conductor.setTelefono(request.getTelefono());
         conductor.setNumeroLicencia(request.getNumeroLicencia());
         conductor.setFechaVencimientoLicencia(request.getFechaVencimientoLicencia());
-        conductor.setUsuario(usuario);
-
     }
 
 }

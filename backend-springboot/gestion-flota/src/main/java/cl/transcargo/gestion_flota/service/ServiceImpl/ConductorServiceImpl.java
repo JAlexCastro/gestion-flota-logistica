@@ -47,10 +47,7 @@ public class ConductorServiceImpl implements IConductor {
     @Override
     public ConductorResponseDTO crear(ConductorRequestDTO request) {
 
-        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        Conductor conductor = mapper.toEntity(request, usuario);
+        Conductor conductor = mapper.toEntity(request);
 
         conductor = repository.save(conductor);
 
@@ -64,10 +61,7 @@ public class ConductorServiceImpl implements IConductor {
         Conductor conductor = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
 
-        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        mapper.updateEntity(conductor, request, usuario);
+        mapper.updateEntity(conductor, request);
 
         conductor = repository.save(conductor);
 
