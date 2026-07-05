@@ -1,0 +1,54 @@
+.revisiones-container {
+    display: flex;
+    flex-direction: column;
+    padding-right: 10px;
+
+}
+
+.toolbar-documentacion{
+
+    display:flex;
+
+    gap:10px;
+
+
+
+    border-bottom:1px solid #ddd;
+
+    padding-bottom:15px;
+
+}
+
+.toolbar-btn{
+
+    border:none;
+
+    background:#ecf0f1;
+
+    padding:12px 22px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.2s;
+
+}
+
+.toolbar-btn:hover{
+
+    background:#d6dbdf;
+
+}
+
+.toolbar-btn.active{
+
+    background:#062a6ee5;
+
+    color:white;
+
+}

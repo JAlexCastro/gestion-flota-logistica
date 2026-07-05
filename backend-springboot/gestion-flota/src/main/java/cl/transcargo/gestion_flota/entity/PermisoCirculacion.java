@@ -17,7 +17,7 @@ public class PermisoCirculacion {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "vehiculo_id", nullable = false)
+    @JoinColumn(name = "vehiculo_id", nullable = false, unique = true)
     private Vehiculo vehiculo;
 
     private LocalDate fechaEmision;

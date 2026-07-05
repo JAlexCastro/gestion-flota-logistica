@@ -45,14 +45,10 @@ function Sidebar() {
 
             <Link to="/revisiones">
                 <span className="icon">📋</span>
-                <span className="text">Revisiones</span>
+                <span className="text">Documentación</span>
             </Link>
 
-            <Link to="/soap">
-                <span className="icon">🛡️</span>
-                <span className="text">SOAP</span>
-            </Link>
-
+            
             <Link to="/fallas">
                 <span className="icon">⚠️</span>
                 <span className="text">Fallas</span>

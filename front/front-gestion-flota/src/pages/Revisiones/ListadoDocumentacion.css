@@ -1,0 +1,175 @@
+.listado-documentacion {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+
+    height: calc(100vh - 220px);
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding-right: 10px;
+
+}
+
+/* ===========================
+   TARJETA DEL VEHÍCULO
+=========================== */
+
+.vehiculo-card {
+
+    background: #ffffff;
+
+    border: 1px solid #dcdfe4;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+    margin-bottom: 20px;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+
+}
+
+/* ===========================
+   CABECERA
+=========================== */
+
+.vehiculo-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 20px;
+
+}
+
+.vehiculo-nombre {
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    color: #2c3e50;
+
+}
+
+.vehiculo-patente {
+
+    margin-top: 5px;
+
+    font-size: 15px;
+
+    color: #7f8c8d;
+
+    letter-spacing: 1px;
+
+}
+
+/* ===========================
+   GRID DOCUMENTOS
+=========================== */
+
+.documentos-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 15px;
+
+}
+
+/* ===========================
+   TARJETA DOCUMENTO
+=========================== */
+
+.documento-card {
+
+    background: #fafafa;
+
+    border: 1px solid #e3e6ea;
+
+    border-radius: 8px;
+
+    padding: 15px;
+
+    transition: .25s;
+
+}
+
+.documento-card:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow: 0 5px 10px rgba(0,0,0,.08);
+
+    background: white;
+
+}
+
+.documento-titulo {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-weight: 600;
+
+    color: #345e3a;
+
+    margin-bottom: 15px;
+
+}
+
+.documento-fecha {
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    color: #2c3e50;
+
+    margin-bottom: 8px;
+
+}
+
+.documento-estado {
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width: 1200px) {
+
+    .documentos-grid {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .documentos-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}

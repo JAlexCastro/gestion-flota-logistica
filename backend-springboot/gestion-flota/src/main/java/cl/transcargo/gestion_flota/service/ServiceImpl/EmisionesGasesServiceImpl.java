@@ -9,7 +9,9 @@ import cl.transcargo.gestion_flota.mapper.EmisionesGasesMapper;
 import cl.transcargo.gestion_flota.repository.REmisionesGases;
 import cl.transcargo.gestion_flota.repository.RVehiculo;
 import cl.transcargo.gestion_flota.service.IService.IEmisionGases;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -49,14 +51,23 @@ public class EmisionesGasesServiceImpl implements IEmisionGases {
     @Override
     public EmisionGasesResponseDTO crear(EmisionGasesRequestDTO request) {
 
-        Vehiculo vehiculo = vehiculoRepository.findById(request.getVehiculoId())
-                .orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
+        if (repository.existsByVehiculoId(request.getVehiculoId())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "El vehículo ya tiene la emision registrada"
+            );
+        }
+
+        Vehiculo vehiculo = vehiculoRepository
+                .findById(request.getVehiculoId())
+                .orElseThrow(() ->
+                        new RuntimeException("Vehículo no encontrado"));
 
         EmisionesGases emision = mapper.toEntity(request, vehiculo);
+        EmisionesGases guardado = repository.save(emision);
 
-        emision = repository.save(emision);
+        return mapper.toResponse(guardado);
 
-        return mapper.toResponse(emision);
     }
 
     @Override

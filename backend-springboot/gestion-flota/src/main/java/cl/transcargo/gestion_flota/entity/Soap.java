@@ -21,7 +21,7 @@ public class Soap {
     private Vehiculo vehiculo;
 
     private String aseguradora;
-
+    @Column(unique = true)
     private String numeroPoliza;
 
     private LocalDate fechaEmision;

@@ -16,8 +16,12 @@ public class EmisionesGases {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "vehiculo_id", nullable = false)
+    @OneToOne
+    @JoinColumn(
+            name = "vehiculo_id",
+            nullable = false,
+            unique = true
+    )
     private Vehiculo vehiculo;
 
     private LocalDate fechaRevision;
@@ -25,4 +29,5 @@ public class EmisionesGases {
     private LocalDate fechaVencimiento;
 
     private String resultado;
+
 }

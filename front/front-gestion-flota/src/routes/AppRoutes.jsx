@@ -7,7 +7,7 @@ import ConductoresPage from "../pages/Conductores/ConductoresPage";
 import UsuariosPage from "../pages/Usuarios/UsuariosPage";
 import MantencionesPage from "../pages/Mantenciones/MantencionesPage";
 import RevisionesPage from "../pages/Revisiones/RevisionesPage";
-import SoapPage from "../pages/SOAP/SoapPage";
+///import SoapPage from "../pages/SOAP/SoapPage";
 import FallasPage from "../pages/Fallas/FallasPage.jsx";
 import DashboardPage from "../pages/Dashboard/DashboardPage";
 
@@ -48,11 +48,6 @@ function AppRoutes() {
                         />
 
                     <Route
-                        path="/soap"
-                        element={<SoapPage />}
-                    />
-
-                    <Route
                         path="/fallas"
                         element={<FallasPage />}
                     />
@@ -66,5 +61,5 @@ function AppRoutes() {
     );
 
 }
-
+///<Route path="/soap" element={<SoapPage />} />
 export default AppRoutes;

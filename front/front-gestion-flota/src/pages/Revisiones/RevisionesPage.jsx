@@ -1,187 +1,68 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import Modal from "../../components/Modal/Modal";
+import "./RevisionesPage.css";
 
-import RevisionTecnicaTable from "./RevisionTecnicaTable";
-import RevisionTecnicaForm from "./RevisionTecnicaForm";
-
-import EmisionGasesTable from "./EmisionGasesTable";
-import EmisionGasesForm from "./EmisionGasesForm";
-
-import {
-    listarRevisiones,
-    crearRevision,
-    actualizarRevision,
-    eliminarRevision
-} from "../../services/revisionTecnicaService";
-
-import {
-    listarEmisiones,
-    crearEmision,
-    actualizarEmision,
-    eliminarEmision
-} from "../../services/emisionesService";
+import ListadoDocumentacion from "./ListadoDocumentacion";
+import RegistrarDocumentacion from "./RegistrarDocumentacion";
+import ActualizarDocumentacion from "./ActualizarDocumentacion";
 
 function RevisionesPage() {
 
-    const [revisiones, setRevisiones] = useState([]);
-    const [emisiones, setEmisiones] = useState([]);
-
-    const [openRevision, setOpenRevision] = useState(false);
-    const [openEmision, setOpenEmision] = useState(false);
-
-    const [editRevision, setEditRevision] = useState(null);
-    const [editEmision, setEditEmision] = useState(null);
-
-    useEffect(() => {
-        cargarTodo();
-    }, []);
-
-    const cargarTodo = async () => {
-
-        const rev = await listarRevisiones();
-        const emi = await listarEmisiones();
-
-        setRevisiones(rev.data);
-        setEmisiones(emi.data);
-
-    };
-
-    // REVISIONES
-
-    const guardarRevision = async (data) => {
-
-        if (editRevision) {
-            await actualizarRevision(editRevision.id, data);
-        } else {
-            await crearRevision(data);
-        }
-
-        setOpenRevision(false);
-        setEditRevision(null);
-
-        cargarTodo();
-
-    };
-
-    // EMISIONES
-
-    const guardarEmision = async (data) => {
-
-        if (editEmision) {
-            await actualizarEmision(editEmision.id, data);
-        } else {
-            await crearEmision(data);
-        }
-
-        setOpenEmision(false);
-        setEditEmision(null);
-
-        cargarTodo();
-
-    };
+    const [vista, setVista] = useState("listar");
 
     return (
 
-        <div>
+        <div className="revisiones-container">
 
-            {/* REVISION TECNICA */}
+            <h1 className="titulo-pagina">
+                Documentación Vehículos
+            </h1>
 
-            <div className="page-header">
-
-                <h1>Revisiones Técnicas</h1>
+            <div className="toolbar-documentacion">
 
                 <button
-                    className="btn-primary"
-                    onClick={() => {
-                        setEditRevision(null);
-                        setOpenRevision(true);
-                    }}
+                    className={vista === "listar" ? "toolbar-btn active" : "toolbar-btn"}
+                    onClick={() => setVista("listar")}
                 >
-                    Nueva Revisión
+                    Listar
+                </button>
+
+                <button
+                    className={vista === "registrar" ? "toolbar-btn active" : "toolbar-btn"}
+                    onClick={() => setVista("registrar")}
+                >
+                    Registrar
+                </button>
+
+                <button
+                    className={vista === "actualizar" ? "toolbar-btn active" : "toolbar-btn"}
+                    onClick={() => setVista("actualizar")}
+                >
+                    Actualizar
                 </button>
 
             </div>
 
-            <RevisionTecnicaTable
-                revisiones={revisiones}
-                onEdit={(r) => {
-                    setEditRevision(r);
-                    setOpenRevision(true);
-                }}
-                onDelete={async (id) => {
-                    await eliminarRevision(id);
-                    cargarTodo();
-                }}
-            />
+            {
+                vista === "listar" &&
+                <ListadoDocumentacion />
+            }
 
-            {/* EMISIONES */}
+            {
+                vista === "registrar" &&
+                <RegistrarDocumentacion />
+            }
 
-            <div className="page-header">
-
-                <h1>Emisiones de Gases</h1>
-
-                <button
-                    className="btn-primary"
-                    onClick={() => {
-                        setEditEmision(null);
-                        setOpenEmision(true);
-                    }}
-                >
-                    Nueva Emisión
-                </button>
-
-            </div>
-
-            <EmisionGasesTable
-                emisiones={emisiones}
-                onEdit={(e) => {
-                    setEditEmision(e);
-                    setOpenEmision(true);
-                }}
-                onDelete={async (id) => {
-                    await eliminarEmision(id);
-                    cargarTodo();
-                }}
-            />
-
-            {/* MODAL REVISION */}
-
-            <Modal
-                isOpen={openRevision}
-                title={
-                    editRevision
-                        ? "Editar Revisión Técnica"
-                        : "Nueva Revisión Técnica"
-                }
-                onClose={() => setOpenRevision(false)}
-            >
-                <RevisionTecnicaForm
-                    revision={editRevision}
-                    onSubmit={guardarRevision}
-                />
-            </Modal>
-
-            {/* MODAL EMISION */}
-
-            <Modal
-                isOpen={openEmision}
-                title={
-                    editEmision
-                        ? "Editar Emisión"
-                        : "Nueva Emisión"
-                }
-                onClose={() => setOpenEmision(false)}
-            >
-                <EmisionGasesForm
-                    emision={editEmision}
-                    onSubmit={guardarEmision}
-                />
-            </Modal>
+            {
+                vista === "actualizar" && (
+                    <ActualizarDocumentacion />
+                )
+            }
 
         </div>
 
     );
+
 }
 
 export default RevisionesPage;
