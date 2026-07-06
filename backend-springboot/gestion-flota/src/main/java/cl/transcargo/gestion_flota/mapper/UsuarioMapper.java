@@ -1,7 +1,7 @@
 package cl.transcargo.gestion_flota.mapper;
 
 import cl.transcargo.gestion_flota.dto.Requests.UsuarioRequestDTO;
-import cl.transcargo.gestion_flota.dto.UsuarioResponseDTO;
+import cl.transcargo.gestion_flota.dto.Responses.UsuarioResponseDTO;
 import cl.transcargo.gestion_flota.entity.Usuario;
 import org.springframework.stereotype.Component;
 

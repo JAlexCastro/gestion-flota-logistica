@@ -3,12 +3,13 @@ package cl.transcargo.gestion_flota.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@Table(name = "usuarios")
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "usuarios")
 public class Usuario {
 
     @Id

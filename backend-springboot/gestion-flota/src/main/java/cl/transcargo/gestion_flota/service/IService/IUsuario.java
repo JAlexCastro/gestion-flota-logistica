@@ -1,7 +1,8 @@
 package cl.transcargo.gestion_flota.service.IService;
 
 import cl.transcargo.gestion_flota.dto.Requests.UsuarioRequestDTO;
-import cl.transcargo.gestion_flota.dto.UsuarioResponseDTO;
+import cl.transcargo.gestion_flota.dto.Responses.UsuarioResponseDTO;
+
 
 import java.util.List;
 

@@ -92,7 +92,9 @@ public class VehiculoServiceImpl implements IVehiculo {
     @Override
     public void eliminar(Long id) {
 
-        repository.deleteById(id);
+        Vehiculo vehiculo = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
 
+        repository.delete(vehiculo);
     }
 }

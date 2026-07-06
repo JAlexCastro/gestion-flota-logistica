@@ -2,7 +2,7 @@ package cl.transcargo.gestion_flota.controller;
 
 import cl.transcargo.gestion_flota.dto.ApiResponse;
 import cl.transcargo.gestion_flota.dto.Requests.UsuarioRequestDTO;
-import cl.transcargo.gestion_flota.dto.UsuarioResponseDTO;
+import cl.transcargo.gestion_flota.dto.Responses.UsuarioResponseDTO;
 import cl.transcargo.gestion_flota.service.IService.IUsuario;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
