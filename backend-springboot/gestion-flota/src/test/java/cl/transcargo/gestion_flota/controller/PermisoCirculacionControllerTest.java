@@ -1,6 +1,10 @@
 package cl.transcargo.gestion_flota.controller;
 
 import cl.transcargo.gestion_flota.dto.Requests.PermisoCirculacionRequestDTO;
+import cl.transcargo.gestion_flota.entity.PermisoCirculacion;
+import cl.transcargo.gestion_flota.entity.Vehiculo;
+import cl.transcargo.gestion_flota.repository.RPermisoCirculacion;
+import cl.transcargo.gestion_flota.repository.RVehiculo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
@@ -11,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,6 +35,12 @@ class PermisoCirculacionControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private RPermisoCirculacion permisoRepository;
+
+    @Autowired
+    private RVehiculo vehiculoRepository;
+
     @Test
     void deberiaListarPermisos() throws Exception {
 
@@ -41,21 +52,12 @@ class PermisoCirculacionControllerTest {
     }
 
     @Test
-    void deberiaObtenerPermisoPorId() throws Exception {
-
-        mockMvc.perform(get("/permisos-circulacion/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value(200))
-                .andExpect(jsonPath("$.message")
-                        .value("Permiso de circulación encontrado"));
-    }
-
-    @Test
     void deberiaCrearPermiso() throws Exception {
 
-        PermisoCirculacionRequestDTO request = new PermisoCirculacionRequestDTO();
+        Vehiculo vehiculo = crearVehiculo();
 
-        request.setVehiculoId(2L);
+        PermisoCirculacionRequestDTO request = new PermisoCirculacionRequestDTO();
+        request.setVehiculoId(vehiculo.getId());
         request.setFechaEmision(LocalDate.now());
         request.setFechaVencimiento(LocalDate.now().plusYears(1));
         request.setEstado("VIGENTE");
@@ -70,16 +72,45 @@ class PermisoCirculacionControllerTest {
     }
 
     @Test
+    void deberiaObtenerPermisoPorId() throws Exception {
+
+        Vehiculo vehiculo = crearVehiculo();
+
+        PermisoCirculacion permiso = new PermisoCirculacion();
+        permiso.setVehiculo(vehiculo);
+        permiso.setFechaEmision(LocalDate.now());
+        permiso.setFechaVencimiento(LocalDate.now().plusYears(1));
+        permiso.setEstado("VIGENTE");
+
+        permiso = permisoRepository.save(permiso);
+
+        mockMvc.perform(get("/permisos-circulacion/" + permiso.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(200))
+                .andExpect(jsonPath("$.message")
+                        .value("Permiso de circulación encontrado"));
+    }
+
+    @Test
     void deberiaActualizarPermiso() throws Exception {
 
-        PermisoCirculacionRequestDTO request = new PermisoCirculacionRequestDTO();
+        Vehiculo vehiculo = crearVehiculo();
 
-        request.setVehiculoId(2L);
+        PermisoCirculacion permiso = new PermisoCirculacion();
+        permiso.setVehiculo(vehiculo);
+        permiso.setFechaEmision(LocalDate.now());
+        permiso.setFechaVencimiento(LocalDate.now().plusYears(1));
+        permiso.setEstado("VIGENTE");
+
+        permiso = permisoRepository.save(permiso);
+
+        PermisoCirculacionRequestDTO request = new PermisoCirculacionRequestDTO();
+        request.setVehiculoId(vehiculo.getId());
         request.setFechaEmision(LocalDate.now());
         request.setFechaVencimiento(LocalDate.now().plusYears(2));
         request.setEstado("VENCIDO");
 
-        mockMvc.perform(put("/permisos-circulacion/update/3")
+        mockMvc.perform(put("/permisos-circulacion/update/" + permiso.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -91,11 +122,47 @@ class PermisoCirculacionControllerTest {
     @Test
     void deberiaEliminarPermiso() throws Exception {
 
-        mockMvc.perform(delete("/permisos-circulacion/delete/2"))
+        Vehiculo vehiculo = crearVehiculo();
+
+        PermisoCirculacion permiso = new PermisoCirculacion();
+        permiso.setVehiculo(vehiculo);
+        permiso.setFechaEmision(LocalDate.now());
+        permiso.setFechaVencimiento(LocalDate.now().plusYears(1));
+        permiso.setEstado("VIGENTE");
+
+        permiso = permisoRepository.save(permiso);
+
+        mockMvc.perform(delete("/permisos-circulacion/delete/" + permiso.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(200))
                 .andExpect(jsonPath("$.message")
                         .value("Permiso de circulación eliminado correctamente"));
+    }
+
+    /**
+     * Crea un vehículo nuevo para cada prueba.
+     */
+
+
+    private Vehiculo crearVehiculo() {
+
+        Vehiculo vehiculo = new Vehiculo();
+
+        // Genera una patente única de 8 caracteres (VARCHAR(10))
+        String patente = UUID.randomUUID()
+                .toString()
+                .replace("-", "")
+                .substring(0, 8)
+                .toUpperCase();
+
+        vehiculo.setPatente(patente);
+        vehiculo.setMarca("Toyota");
+        vehiculo.setModelo("Hilux");
+        vehiculo.setAnio(2024);
+        vehiculo.setKilometrajeActual(1000);
+        vehiculo.setEstado("ACTIVO");
+
+        return vehiculoRepository.save(vehiculo);
     }
 
 }

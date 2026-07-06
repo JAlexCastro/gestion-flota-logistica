@@ -1,6 +1,8 @@
 package cl.transcargo.gestion_flota.controller;
 
 import cl.transcargo.gestion_flota.dto.Requests.ConductorRequestDTO;
+import cl.transcargo.gestion_flota.entity.Conductor;
+import cl.transcargo.gestion_flota.repository.RConductor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
@@ -12,8 +14,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -25,6 +31,9 @@ class ConductorControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private RConductor conductorRepository;
 
     @Test
     void deberiaListarConductores() throws Exception {
@@ -59,24 +68,42 @@ class ConductorControllerTest {
     @Test
     void deberiaObtenerConductorPorId() throws Exception {
 
-        mockMvc.perform(get("/conductores/2"))
+        Conductor conductor = new Conductor();
+        conductor.setRut("12.345.678-9");
+        conductor.setNombre("Carlos Soto");
+        conductor.setTelefono("987654321");
+        conductor.setNumeroLicencia("LIC111111");
+        conductor.setFechaVencimientoLicencia(LocalDate.of(2029, 5, 20));
+
+        conductor = conductorRepository.save(conductor);
+
+        mockMvc.perform(get("/conductores/" + conductor.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(200))
-                .andExpect(jsonPath("$.message").value("Conductor encontrado"));
+                .andExpect(jsonPath("$.message").value("Conductor encontrado"))
+                .andExpect(jsonPath("$.data.nombre").value("Carlos Soto"));
     }
 
     @Test
     void deberiaActualizarConductor() throws Exception {
 
-        ConductorRequestDTO request = new ConductorRequestDTO();
+        Conductor conductor = new Conductor();
+        conductor.setRut("12.345.678-9");
+        conductor.setNombre("Carlos Soto");
+        conductor.setTelefono("987654321");
+        conductor.setNumeroLicencia("LIC111111");
+        conductor.setFechaVencimientoLicencia(LocalDate.of(2029, 5, 20));
 
+        conductor = conductorRepository.save(conductor);
+
+        ConductorRequestDTO request = new ConductorRequestDTO();
         request.setRut("22.222.222-2");
         request.setNombre("Pedro González");
         request.setTelefono("999999999");
         request.setNumeroLicencia("LIC999999");
         request.setFechaVencimientoLicencia(LocalDate.of(2030, 10, 15));
 
-        mockMvc.perform(put("/conductores/update/2")
+        mockMvc.perform(put("/conductores/update/" + conductor.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -88,7 +115,16 @@ class ConductorControllerTest {
     @Test
     void deberiaEliminarConductor() throws Exception {
 
-        mockMvc.perform(delete("/conductores/delete/2"))
+        Conductor conductor = new Conductor();
+        conductor.setRut("12.345.678-9");
+        conductor.setNombre("Carlos Soto");
+        conductor.setTelefono("987654321");
+        conductor.setNumeroLicencia("LIC111111");
+        conductor.setFechaVencimientoLicencia(LocalDate.of(2029, 5, 20));
+
+        conductor = conductorRepository.save(conductor);
+
+        mockMvc.perform(delete("/conductores/delete/" + conductor.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(200))
                 .andExpect(jsonPath("$.message").value("Conductor eliminado correctamente"));
