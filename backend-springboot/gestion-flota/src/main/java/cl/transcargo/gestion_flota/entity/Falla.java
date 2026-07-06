@@ -4,12 +4,12 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 
-@Entity
 @Table(name = "fallas")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class Falla {
 
     @Id
