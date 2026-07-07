@@ -65,38 +65,28 @@ class VehiculoServiceImplTest {
         vehiculo.setEstado("Activo");
 
         when(repository.findById(1L)).thenReturn(Optional.of(vehiculo));
-
         VehiculoResponseDTO resultado = service.obtener(1L);
-
         assertEquals("ABCD11", resultado.getPatente());
         assertEquals("Toyota", resultado.getMarca());
-
         verify(repository).findById(1L);
     }
 
     @Test
     void deberiaCrearVehiculo() {
-
         VehiculoRequestDTO request = new VehiculoRequestDTO();
         request.setPatente("ABCD11");
         request.setMarca("Toyota");
-
         Vehiculo vehiculo = new Vehiculo();
         vehiculo.setPatente("ABCD11");
-
         VehiculoResponseDTO response = new VehiculoResponseDTO();
         response.setPatente("ABCD11");
-
         when(mapper.toEntity(request)).thenReturn(vehiculo);
         when(repository.save(vehiculo)).thenReturn(vehiculo);
         when(mapper.toResponse(vehiculo)).thenReturn(response);
 
         VehiculoResponseDTO resultado = service.crear(request);
-
         assertEquals("ABCD11", resultado.getPatente());
-
-        verify(repository).save(vehiculo);
-    }
+        verify(repository).save(vehiculo);}
 
     @Test
     void deberiaActualizarVehiculo() {
