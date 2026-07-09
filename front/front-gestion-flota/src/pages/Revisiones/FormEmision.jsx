@@ -278,7 +278,10 @@ function FormEmision({ vehiculoId, datos = null,  modo = "crear"})
                     onClick={guardar}
                 >
 
-                    Guardar Emisión
+
+                    {modo === "editar"
+                    ? "Actualizar Emisión"
+                    : "Guardar Emisión"}
 
                 </button>
 

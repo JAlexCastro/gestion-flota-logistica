@@ -9,7 +9,6 @@ function UsuarioTable({ usuarios, onEdit, onDelete }) {
             <thead>
                 <tr>
 
-                    <th>ID</th>
                     <th>Username</th>
                     <th>Rol</th>
                     <th>Acciones</th>
@@ -23,7 +22,6 @@ function UsuarioTable({ usuarios, onEdit, onDelete }) {
 
                     <tr key={u.id}>
 
-                        <td>{u.id}</td>
                         <td>{u.username}</td>
                         <td>{u.rol}</td>
 

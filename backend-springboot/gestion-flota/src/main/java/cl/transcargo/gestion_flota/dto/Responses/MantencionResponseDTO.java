@@ -14,25 +14,14 @@ import java.time.LocalDate;
 public class MantencionResponseDTO {
 
     private Long id;
-
     private Long vehiculoId;
-
     private String patente;
-
     private LocalDate fecha;
-
     private Integer kilometraje;
-
     private Integer kilometrajeActual;
-
     private Integer kilometrajeRestantes;
-
     private String tipo;
-
     private String descripcion;
-
     private String taller;
-
     private String estado;
-
 }

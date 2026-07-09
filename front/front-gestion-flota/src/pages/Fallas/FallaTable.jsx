@@ -8,7 +8,6 @@ function FallaTable({ fallas, onEdit, onDelete }) {
 
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Patente</th>
                     <th>Fecha</th>
                     <th>Descripción</th>
@@ -24,7 +23,6 @@ function FallaTable({ fallas, onEdit, onDelete }) {
 
                     <tr key={f.id}>
 
-                        <td>{f.id}</td>
                         <td>{f.patente}</td>
                         <td>{f.fecha}</td>
                         <td>{f.descripcion}</td>

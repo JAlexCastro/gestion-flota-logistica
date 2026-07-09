@@ -1,9 +1,12 @@
-import { useState } from "react";
-import { crearPermiso } from "../../services/permisoCirculacionService";
+import { useState, useEffect } from "react";
+import {
+    crearPermiso,
+    actualizarPermiso
+} from "../../services/permisoCirculacionService";
 
 import "./DocumentacionForm.css";
 
-function FormPermiso({ vehiculoId }) {
+function FormPermiso({ vehiculoId, datos, modo}) {
 
     const initialForm = {
 
@@ -16,6 +19,17 @@ function FormPermiso({ vehiculoId }) {
     const [form, setForm] = useState(initialForm);
 
     const [errores, setErrores] = useState({});
+
+    useEffect(() => {
+
+    if (modo === "editar" && datos) {
+        setForm({
+            fechaEmision: datos.fechaEmision || "",
+            fechaVencimiento: datos.fechaVencimiento || "",
+            estado: datos.estado || ""
+        });
+        }
+    }, [datos, modo]);
 
     const handleChange = (e) => {
 
@@ -94,36 +108,28 @@ function FormPermiso({ vehiculoId }) {
 
         try {
 
-            await crearPermiso({
-
+            const body = {
                 vehiculoId: Number(vehiculoId),
-
                 fechaEmision: form.fechaEmision,
-
                 fechaVencimiento: form.fechaVencimiento,
-
                 estado: form.estado
+            };
 
-            });
+            if (modo === "editar") {
+                await actualizarPermiso(datos.id, body);
+                alert("Permiso actualizado correctamente.");
 
-            alert("Permiso registrado correctamente.");
+            } else {
+                await crearPermiso(body);
+                alert("Permiso registrado correctamente.");
 
-            setForm(initialForm);
-
-            setErrores({});
-
+            }
         } catch (error) {
-
             console.error(error);
-
             alert(
-
-                error.response?.data?.message ||
-
-                "Ocurrió un error al registrar el permiso."
-
+                error.message ||
+                "Ocurrió un error."
             );
-
         }
 
     };
@@ -231,7 +237,9 @@ function FormPermiso({ vehiculoId }) {
                     onClick={guardar}
                 >
 
-                    Guardar Permiso
+                    {modo === "editar"
+                    ? "Actualizar Permiso"
+                    : "Guardar Permiso"}
 
                 </button>
 

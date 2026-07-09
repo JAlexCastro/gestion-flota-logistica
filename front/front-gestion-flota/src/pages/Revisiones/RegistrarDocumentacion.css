@@ -112,13 +112,13 @@
 
 .tabs button:hover {
 
-    background: var(--edit-btn);
+    background: #e67e22;
 
 }
 
 .tabs button.active {
 
-    background: var(--edit-btn);
+    background: #e67e22;
 
     color: white;
 
