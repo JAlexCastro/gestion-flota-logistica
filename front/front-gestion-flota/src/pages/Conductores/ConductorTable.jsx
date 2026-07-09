@@ -1,7 +1,20 @@
 import "./ConductorTable.css";
 
 function ConductorTable({ conductores, onEdit, onDelete }) {
+    const calcularDiasRestantes = (fecha) => {
 
+    const hoy = new Date();
+
+    const vencimiento = new Date(fecha);
+
+    hoy.setHours(0, 0, 0, 0);
+    vencimiento.setHours(0, 0, 0, 0);
+
+    const diferencia = vencimiento - hoy;
+
+    return Math.ceil(diferencia / (1000 * 60 * 60 * 24));
+
+};
     return (
 
         <div className="table-container">
@@ -10,12 +23,13 @@ function ConductorTable({ conductores, onEdit, onDelete }) {
 
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Rut</th>
                         <th>Nombre</th>
                         <th>Teléfono</th>
-                        <th>Licencia</th>
+                        <th>N° Licencia</th>
+                        <th>Clase Lic</th>
                         <th>Vencimiento</th>
+                        <th>Dias Restantes</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -26,13 +40,15 @@ function ConductorTable({ conductores, onEdit, onDelete }) {
 
                         <tr key={c.id}>
 
-                            <td>{c.id}</td>
                             <td>{c.rut}</td>
                             <td>{c.nombre}</td>
                             <td>{c.telefono}</td>
                             <td>{c.numeroLicencia}</td>
+                            <td>{c.claseLicencia}</td>
                             <td>{c.fechaVencimientoLicencia}</td>
-
+                            <td>
+                                {calcularDiasRestantes(c.fechaVencimientoLicencia)} días
+                            </td>
                             <td>
 
                                 <div className="actions">

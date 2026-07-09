@@ -17,4 +17,6 @@ public interface IVehiculo {
 
     void eliminar(Long id);
 
+    VehiculoResponseDTO asignarConductor(Long vehiculoId, Long conductorId);
+
 }

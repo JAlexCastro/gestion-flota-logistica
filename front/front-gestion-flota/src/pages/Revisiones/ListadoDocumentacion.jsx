@@ -4,6 +4,7 @@ import { listarDocumentacion } from "../../services/documentacionService";
 
 function ListadoDocumentacion() {
 
+    
     const [vehiculos, setVehiculos] = useState([]);
 
     useEffect(() => {
@@ -15,7 +16,7 @@ function ListadoDocumentacion() {
         try {
 
             const response = await listarDocumentacion();
-
+            console.log(response.data);
             setVehiculos(response.data);
 
         } catch (error) {
@@ -116,19 +117,18 @@ function ListadoDocumentacion() {
         );
 
     };
-
     return (
-
+        
         <div className="listado-documentacion">
 
             {
-
+                
                 vehiculos.length === 0 ?
 
                     <p>No existen vehículos registrados.</p>
 
                     :
-
+                    
                     vehiculos.map((vehiculo) => (
 
                         <div
@@ -142,7 +142,7 @@ function ListadoDocumentacion() {
 
                                     <div className="vehiculo-nombre">
 
-                                        🚛 {vehiculo.marca} {vehiculo.modelo}
+                                        🚛 {vehiculo.nombre} 
 
                                     </div>
 

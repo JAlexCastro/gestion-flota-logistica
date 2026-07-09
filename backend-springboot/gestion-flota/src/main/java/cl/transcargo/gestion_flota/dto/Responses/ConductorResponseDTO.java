@@ -21,7 +21,9 @@ public class ConductorResponseDTO {
 
     private String telefono;
 
-    private String numeroLicencia;
+    private Integer numeroLicencia;
+
+    private String claseLicencia;
 
     private LocalDate fechaVencimientoLicencia;
 

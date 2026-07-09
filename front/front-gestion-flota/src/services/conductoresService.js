@@ -1,11 +1,15 @@
 import axios from "axios";
+import api from "./api";
 
 const API = "http://localhost:8080/conductores";
 
 export const listarConductores = async () => {
-    return await axios.get(`${API}/list`);
-};
 
+    const response = await api.get("/conductores/list");
+
+    return response.data;
+
+};
 export const crearConductor = async (data) => {
     return await axios.post(`${API}/save`, data);
 };

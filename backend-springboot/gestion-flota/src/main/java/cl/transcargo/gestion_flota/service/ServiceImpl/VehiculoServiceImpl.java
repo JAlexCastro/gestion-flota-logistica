@@ -2,8 +2,10 @@ package cl.transcargo.gestion_flota.service.ServiceImpl;
 
 import cl.transcargo.gestion_flota.dto.Requests.VehiculoRequestDTO;
 import cl.transcargo.gestion_flota.dto.Responses.VehiculoResponseDTO;
+import cl.transcargo.gestion_flota.entity.Conductor;
 import cl.transcargo.gestion_flota.entity.Vehiculo;
 import cl.transcargo.gestion_flota.mapper.VehiculoMapper;
+import cl.transcargo.gestion_flota.repository.RConductor;
 import cl.transcargo.gestion_flota.repository.RVehiculo;
 import cl.transcargo.gestion_flota.service.IService.IVehiculo;
 import org.springframework.stereotype.Service;
@@ -16,11 +18,14 @@ public class VehiculoServiceImpl implements IVehiculo {
     // Inyeccion de dependencia
     private final VehiculoMapper mapper;
     private final RVehiculo repository;
+    private final RConductor conductorRepository;
 
     public VehiculoServiceImpl(RVehiculo repository,
-                               VehiculoMapper mapper) {
+                               VehiculoMapper mapper,
+                               RConductor conductorRepository) {
         this.repository = repository;
         this.mapper = mapper;
+        this.conductorRepository = conductorRepository;
     }
 
     // Listar
@@ -44,6 +49,7 @@ public class VehiculoServiceImpl implements IVehiculo {
         response.setId(vehiculo.getId());
         response.setPatente(vehiculo.getPatente());
         response.setModelo(vehiculo.getModelo());
+        response.setNombre(vehiculo.getNombre());
         response.setMarca(vehiculo.getMarca());
 
         response.setAnio(vehiculo.getAnio());
@@ -79,6 +85,7 @@ public class VehiculoServiceImpl implements IVehiculo {
 
         vehiculo.setPatente(request.getPatente());
         vehiculo.setMarca(request.getMarca());
+        vehiculo.setNombre(request.getNombre());
         vehiculo.setModelo(request.getModelo());
         vehiculo.setAnio(request.getAnio());
         vehiculo.setEstado(request.getEstado());
@@ -97,4 +104,21 @@ public class VehiculoServiceImpl implements IVehiculo {
 
         repository.delete(vehiculo);
     }
+
+    @Override
+    public VehiculoResponseDTO asignarConductor(Long vehiculoId, Long conductorId){
+
+        Vehiculo vehiculo = repository.findById(vehiculoId)
+                .orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
+
+        Conductor conductor = conductorRepository.findById(conductorId)
+                .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
+
+        vehiculo.setConductor(conductor);
+
+        repository.save(vehiculo);
+
+        return mapper.toResponse(vehiculo);
+    }
+
 }

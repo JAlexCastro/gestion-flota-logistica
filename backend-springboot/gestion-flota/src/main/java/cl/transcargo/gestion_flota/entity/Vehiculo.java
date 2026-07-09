@@ -5,12 +5,13 @@ import lombok.*;
 
 import java.util.List;
 
-@Entity
+
 @Table(name = "vehiculos")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class Vehiculo {
 
     @Id
@@ -22,6 +23,9 @@ public class Vehiculo {
 
     @Column(nullable = false, length = 50)
     private String marca;
+
+    @Column(nullable = false, length = 100)
+    private String nombre;
 
     @Column(nullable = false, length = 50)
     private String modelo;

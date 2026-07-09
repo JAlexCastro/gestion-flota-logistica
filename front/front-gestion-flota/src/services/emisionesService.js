@@ -10,9 +10,16 @@ export const crearEmision = async (data) => {
     return response.data;
 };
 
+
 export const actualizarEmision = async (id, data) => {
-    const response = await api.put(`/emisiones-gases/update/${id}`, data);
+
+    const response = await api.put(
+        `/emisiones-gases/update/${id}`,
+        data
+    );
+
     return response.data;
+
 };
 
 export const eliminarEmision = async (id) => {

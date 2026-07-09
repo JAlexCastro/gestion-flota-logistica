@@ -42,7 +42,7 @@
 }
 
 .btn-edit {
-    background: #1976d2;
+    background: var(--edit-btn);
     color: white;
     border: none;
     padding: 7px 14px;
@@ -56,7 +56,7 @@
 }
 
 .btn-delete {
-    background: #d32f2f;
+    background: var(--delete-btn);
     color: white;
     border: none;
     padding: 7px 14px;

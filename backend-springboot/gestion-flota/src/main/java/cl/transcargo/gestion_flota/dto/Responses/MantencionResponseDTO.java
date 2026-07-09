@@ -23,10 +23,16 @@ public class MantencionResponseDTO {
 
     private Integer kilometraje;
 
+    private Integer kilometrajeActual;
+
+    private Integer kilometrajeRestantes;
+
     private String tipo;
 
     private String descripcion;
 
     private String taller;
+
+    private String estado;
 
 }

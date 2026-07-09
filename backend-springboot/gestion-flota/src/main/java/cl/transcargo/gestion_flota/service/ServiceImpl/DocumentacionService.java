@@ -66,6 +66,7 @@ public class DocumentacionService {
                     .marca(v.getMarca())
                     .modelo(v.getModelo())
                     .patente(v.getPatente())
+                    .nombre(v.getNombre())
 
                     .revisionTecnica(revision)
                     .emisionGases(emisiones)

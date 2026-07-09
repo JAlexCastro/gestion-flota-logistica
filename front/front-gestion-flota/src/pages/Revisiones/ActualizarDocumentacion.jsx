@@ -62,7 +62,7 @@ function ActualizarDocumentacion() {
 
             );
 
-            setDocumentacion(doc);
+            setDocumentacion(doc || {});
 
         } catch (error) {
 
@@ -116,7 +116,7 @@ function ActualizarDocumentacion() {
 
                             >
 
-                                {vehiculo.marca} {vehiculo.modelo} - {vehiculo.patente}
+                                 {vehiculo.nombre} - {vehiculo.patente}
 
                             </option>
 
@@ -130,7 +130,7 @@ function ActualizarDocumentacion() {
 
             {
 
-                documentacion &&
+                vehiculoId &&
 
                 <>
 
@@ -138,7 +138,15 @@ function ActualizarDocumentacion() {
 
                         <button>
 
-                            Revisión Técnica
+                            {
+
+                                documentacion?.revisionTecnica
+
+                                    ? "Actualizar Revisión Técnica"
+
+                                    : "Registrar Revisión Técnica"
+
+                            }
 
                         </button>
 
@@ -148,9 +156,17 @@ function ActualizarDocumentacion() {
 
                         vehiculoId={vehiculoId}
 
-                        datos={documentacion.revisionTecnica}
+                        datos={documentacion?.revisionTecnica}
 
-                        modo="editar"
+                        modo={
+
+                            documentacion?.revisionTecnica
+
+                                ? "editar"
+
+                                : "crear"
+
+                        }
 
                     />
 
@@ -160,7 +176,15 @@ function ActualizarDocumentacion() {
 
                         <button>
 
-                            Emisión de Gases
+                            {
+
+                                documentacion?.emisionGases
+
+                                    ? "Actualizar Emisión de Gases"
+
+                                    : "Registrar Emisión de Gases"
+
+                            }
 
                         </button>
 
@@ -170,9 +194,17 @@ function ActualizarDocumentacion() {
 
                         vehiculoId={vehiculoId}
 
-                        datos={documentacion.emisionGases}
+                        datos={documentacion?.emisionGases}
 
-                        modo="editar"
+                        modo={
+
+                            documentacion?.emisionGases
+
+                                ? "editar"
+
+                                : "crear"
+
+                        }
 
                     />
 
@@ -182,7 +214,15 @@ function ActualizarDocumentacion() {
 
                         <button>
 
-                            SOAP
+                            {
+
+                                documentacion?.soap
+
+                                    ? "Actualizar SOAP"
+
+                                    : "Registrar SOAP"
+
+                            }
 
                         </button>
 
@@ -192,9 +232,17 @@ function ActualizarDocumentacion() {
 
                         vehiculoId={vehiculoId}
 
-                        datos={documentacion.soap}
+                        datos={documentacion?.soap}
 
-                        modo="editar"
+                        modo={
+
+                            documentacion?.soap
+
+                                ? "editar"
+
+                                : "crear"
+
+                        }
 
                     />
 
@@ -204,7 +252,15 @@ function ActualizarDocumentacion() {
 
                         <button>
 
-                            Permiso de Circulación
+                            {
+
+                                documentacion?.permisoCirculacion
+
+                                    ? "Actualizar Permiso de Circulación"
+
+                                    : "Registrar Permiso de Circulación"
+
+                            }
 
                         </button>
 
@@ -214,9 +270,17 @@ function ActualizarDocumentacion() {
 
                         vehiculoId={vehiculoId}
 
-                        datos={documentacion.permisoCirculacion}
+                        datos={documentacion?.permisoCirculacion}
 
-                        modo="editar"
+                        modo={
+
+                            documentacion?.permisoCirculacion
+
+                                ? "editar"
+
+                                : "crear"
+
+                        }
 
                     />
 

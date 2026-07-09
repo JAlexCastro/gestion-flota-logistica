@@ -1,70 +1,179 @@
-import { useState } from "react";
-import { crearEmision } from "../../services/emisionesService";
+import { useEffect, useState } from "react";
+import { crearEmision, actualizarEmision } from "../../services/emisionesService";
 
-function FormEmision({ vehiculoId }) {
+import "./DocumentacionForm.css";
 
-    const [form, setForm] = useState({
+function FormEmision({ vehiculoId, datos = null,  modo = "crear"}) 
+{
+
+    const initialForm = {
 
         fechaRevision: "",
         fechaVencimiento: "",
         resultado: ""
 
-    });
+    };
+
+    const [form, setForm] = useState(initialForm);
+
+    useEffect(() => {
+
+    if (datos) {
+
+        setForm({
+
+            fechaRevision: datos.fechaRevision || "",
+
+            fechaVencimiento: datos.fechaVencimiento || "",
+
+            resultado: datos.resultado || ""
+
+        });
+
+    } else {
+
+        setForm(initialForm);
+
+    }
+
+    setErrores({});
+
+}, [datos]);
+
+    const [errores, setErrores] = useState({});
 
     const handleChange = (e) => {
+
+        const { name, value } = e.target;
 
         setForm({
 
             ...form,
-            [e.target.name]: e.target.value
+            [name]: value
+
+        });
+
+        setErrores({
+
+            ...errores,
+            [name]: ""
 
         });
 
     };
 
-    const guardar = async () => {
+    const validar = () => {
+
+        const nuevosErrores = {};
 
         if (!vehiculoId) {
 
-            alert("Seleccione un vehículo.");
-
-            return;
+            nuevosErrores.vehiculo =
+                "Debe seleccionar un vehículo.";
 
         }
 
-        try {
+        if (!form.fechaRevision) {
 
-            await crearEmision({
+            nuevosErrores.fechaRevision =
+                "Seleccione la fecha de revisión.";
 
-                vehiculoId: Number(vehiculoId),
+        }
 
-                fechaRevision: form.fechaRevision,
+        if (!form.fechaVencimiento) {
 
-                fechaVencimiento: form.fechaVencimiento,
+            nuevosErrores.fechaVencimiento =
+                "Seleccione la fecha de vencimiento.";
 
-                resultado: form.resultado
+        }
 
-            });
+        if (
+
+            form.fechaRevision &&
+            form.fechaVencimiento &&
+            form.fechaVencimiento < form.fechaRevision
+
+        ) {
+
+            nuevosErrores.fechaVencimiento =
+                "La fecha de vencimiento debe ser posterior a la revisión.";
+
+        }
+
+        if (!form.resultado) {
+
+            nuevosErrores.resultado =
+                "Seleccione un resultado.";
+
+        }
+
+        setErrores(nuevosErrores);
+
+        return Object.keys(nuevosErrores).length === 0;
+
+    };
+
+    const guardar = async () => {
+
+    if (!validar()) return;
+
+    const body = {
+
+        vehiculoId: Number(vehiculoId),
+
+        fechaRevision: form.fechaRevision,
+
+        fechaVencimiento: form.fechaVencimiento,
+
+        resultado: form.resultado
+
+    };
+
+    try {
+
+        if (modo === "editar") {
+
+            if (!datos?.id) {
+
+                alert("No se encontró la emisión.");
+
+                return;
+
+            }
+
+            await actualizarEmision(datos.id, body);
+
+            alert("Emisión actualizada correctamente.");
+
+        } else {
+
+            await crearEmision(body);
 
             alert("Emisión registrada correctamente.");
 
-            setForm({
-
-                fechaRevision: "",
-                fechaVencimiento: "",
-                resultado: ""
-
-            });
-
-        } catch (error) {
-
-            console.error(error);
-
-            alert("Error al registrar.");
+            setForm(initialForm);
 
         }
 
+        setErrores({});
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+
+            error.response?.data?.message ||
+
+            "Ocurrió un error al guardar la emisión."
+
+        );
+
+    }
+
     };
+
+
 
     return (
 
@@ -81,6 +190,16 @@ function FormEmision({ vehiculoId }) {
                     onChange={handleChange}
                 />
 
+                {errores.fechaRevision &&
+
+                    <span className="error">
+
+                        {errores.fechaRevision}
+
+                    </span>
+
+                }
+
             </div>
 
             <div className="campo">
@@ -94,6 +213,16 @@ function FormEmision({ vehiculoId }) {
                     onChange={handleChange}
                 />
 
+                {errores.fechaVencimiento &&
+
+                    <span className="error">
+
+                        {errores.fechaVencimiento}
+
+                    </span>
+
+                }
+
             </div>
 
             <div className="campo">
@@ -106,7 +235,9 @@ function FormEmision({ vehiculoId }) {
                     onChange={handleChange}
                 >
 
-                    <option value="">Seleccione</option>
+                    <option value="">
+                        Seleccione
+                    </option>
 
                     <option value="APROBADO">
                         Aprobado
@@ -118,7 +249,27 @@ function FormEmision({ vehiculoId }) {
 
                 </select>
 
+                {errores.resultado &&
+
+                    <span className="error">
+
+                        {errores.resultado}
+
+                    </span>
+
+                }
+
             </div>
+
+            {errores.vehiculo &&
+
+                <span className="error">
+
+                    {errores.vehiculo}
+
+                </span>
+
+            }
 
             <div className="acciones">
 
@@ -126,7 +277,9 @@ function FormEmision({ vehiculoId }) {
                     className="btn-guardar"
                     onClick={guardar}
                 >
+
                     Guardar Emisión
+
                 </button>
 
             </div>

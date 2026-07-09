@@ -1,19 +1,15 @@
 table {
-
     width: 100%;
     border-collapse: collapse;
     background: white;
-
     overflow-x: auto;
 }
 
 th {
-
     background: #003366;
     color: white;
     padding: 12px;
     text-align: left;
-
     white-space: nowrap;
 }
 
@@ -29,7 +25,7 @@ tr:hover {
     background: #f3f3f3;
 }
 
-/* 🔥 RESPONSIVE */
+/*  RESPONSIVE */
 @media (max-width: 768px) {
 
     table {
@@ -43,14 +39,6 @@ tr:hover {
         padding: 10px;
     }
 }
-
-
-
-
-
-
-
-
 
 .btn{
     color:white;
@@ -66,14 +54,4 @@ tr:hover {
     opacity: 0.7;
 }
 
-.btn-edit{
 
-    background:#af9e05;
-
-}
-
-.btn-delete{
-
-    background:#b10614;
-
-}

@@ -30,4 +30,6 @@ public class Mantencion {
     private String descripcion;
 
     private String taller;
+
+    private String estado;
 }

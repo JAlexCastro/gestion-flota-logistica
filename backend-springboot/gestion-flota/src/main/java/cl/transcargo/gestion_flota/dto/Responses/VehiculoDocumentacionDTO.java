@@ -16,6 +16,7 @@ public class VehiculoDocumentacionDTO {
     private String marca;
     private String modelo;
     private String patente;
+    private String nombre;
 
     private RevisionTecnicaResponseDTO revisionTecnica;
 

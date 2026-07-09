@@ -19,7 +19,9 @@ public class ConductorRequestDTO {
 
     private String telefono;
 
-    private String numeroLicencia;
+    private Integer numeroLicencia;
+
+    private String ClaseLicencia;
 
     private LocalDate fechaVencimientoLicencia;
 

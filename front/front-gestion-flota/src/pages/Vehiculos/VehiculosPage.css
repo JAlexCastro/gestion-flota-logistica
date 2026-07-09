@@ -20,18 +20,3 @@
     font-size: 24px;
 }
 
-/* botón */
-.page-header button {
-
-    background: #003366;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-
-}
-
-.page-header button:hover {
-    background: #0055aa;
-}

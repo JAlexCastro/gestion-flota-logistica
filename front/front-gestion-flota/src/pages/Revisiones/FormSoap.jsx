@@ -1,70 +1,201 @@
-import { useState } from "react";
-import { crearSoap } from "../../services/soapService";
+import { useEffect, useState } from "react";
 
-function FormSoap({ vehiculoId }) {
+import {
+    crearSoap,
+    actualizarSoap
+} from "../../services/soapService";
 
-    const [form, setForm] = useState({
+import "./DocumentacionForm.css";
+
+function FormSoap({
+
+    vehiculoId,
+
+    datos = null,
+
+    modo = "crear"
+
+}) {
+
+    const initialForm = {
 
         aseguradora: "",
         numeroPoliza: "",
         fechaEmision: "",
         fechaVencimiento: ""
 
-    });
+    };
+
+    const [form, setForm] = useState(initialForm);
+
+    const [errores, setErrores] = useState({});
+
+    useEffect(() => {
+
+        if (datos) {
+
+            setForm({
+
+                aseguradora: datos.aseguradora || "",
+
+                numeroPoliza: datos.numeroPoliza || "",
+
+                fechaEmision: datos.fechaEmision || "",
+
+                fechaVencimiento: datos.fechaVencimiento || ""
+
+            });
+
+        } else {
+
+            setForm(initialForm);
+
+        }
+
+        setErrores({});
+
+    }, [datos]);
 
     const handleChange = (e) => {
+
+        const { name, value } = e.target;
 
         setForm({
 
             ...form,
-            [e.target.name]: e.target.value
+            [name]: value
+
+        });
+
+        setErrores({
+
+            ...errores,
+            [name]: ""
 
         });
 
     };
 
-    const guardar = async () => {
+    const validar = () => {
+
+        const nuevosErrores = {};
 
         if (!vehiculoId) {
 
-            alert("Seleccione un vehículo.");
-
-            return;
+            nuevosErrores.vehiculo =
+                "Debe seleccionar un vehículo.";
 
         }
 
+        if (!form.aseguradora.trim()) {
+
+            nuevosErrores.aseguradora =
+                "Ingrese la aseguradora.";
+
+        } else if (form.aseguradora.trim().length < 3) {
+
+            nuevosErrores.aseguradora =
+                "Debe tener al menos 3 caracteres.";
+
+        }
+
+        if (!form.numeroPoliza.trim()) {
+
+            nuevosErrores.numeroPoliza =
+                "Ingrese el número de póliza.";
+
+        }
+
+        if (!form.fechaEmision) {
+
+            nuevosErrores.fechaEmision =
+                "Seleccione la fecha de emisión.";
+
+        }
+
+        if (!form.fechaVencimiento) {
+
+            nuevosErrores.fechaVencimiento =
+                "Seleccione la fecha de vencimiento.";
+
+        }
+
+        if (
+
+            form.fechaEmision &&
+            form.fechaVencimiento &&
+            form.fechaVencimiento < form.fechaEmision
+
+        ) {
+
+            nuevosErrores.fechaVencimiento =
+                "La fecha de vencimiento debe ser posterior a la emisión.";
+
+        }
+
+        setErrores(nuevosErrores);
+
+        return Object.keys(nuevosErrores).length === 0;
+
+    };
+
+    const guardar = async () => {
+
+        if (!validar()) return;
+
+        const body = {
+
+            vehiculoId: Number(vehiculoId),
+
+            aseguradora: form.aseguradora.trim(),
+
+            numeroPoliza: form.numeroPoliza.trim(),
+
+            fechaEmision: form.fechaEmision,
+
+            fechaVencimiento: form.fechaVencimiento
+
+        };
+
         try {
 
-            await crearSoap({
+            if (modo === "editar") {
 
-                vehiculoId: Number(vehiculoId),
+                if (!datos?.id) {
 
-                aseguradora: form.aseguradora,
+                    alert("No se encontró el SOAP.");
 
-                numeroPoliza: form.numeroPoliza,
+                    return;
 
-                fechaEmision: form.fechaEmision,
+                }
 
-                fechaVencimiento: form.fechaVencimiento
+                await actualizarSoap(datos.id, body);
 
-            });
+                alert("SOAP actualizado correctamente.");
 
-            alert("SOAP registrado correctamente.");
+            } else {
 
-            setForm({
+                await crearSoap(body);
 
-                aseguradora: "",
-                numeroPoliza: "",
-                fechaEmision: "",
-                fechaVencimiento: ""
+                alert("SOAP registrado correctamente.");
 
-            });
+                setForm(initialForm);
+
+            }
+
+            setErrores({});
 
         } catch (error) {
 
             console.error(error);
 
-            alert("Error al registrar.");
+            alert(
+
+                error.response?.data?.message ||
+
+                "Ocurrió un error."
+
+            );
 
         }
 
@@ -85,6 +216,16 @@ function FormSoap({ vehiculoId }) {
                     onChange={handleChange}
                 />
 
+                {errores.aseguradora &&
+
+                    <span className="error">
+
+                        {errores.aseguradora}
+
+                    </span>
+
+                }
+
             </div>
 
             <div className="campo">
@@ -97,6 +238,16 @@ function FormSoap({ vehiculoId }) {
                     value={form.numeroPoliza}
                     onChange={handleChange}
                 />
+
+                {errores.numeroPoliza &&
+
+                    <span className="error">
+
+                        {errores.numeroPoliza}
+
+                    </span>
+
+                }
 
             </div>
 
@@ -111,6 +262,16 @@ function FormSoap({ vehiculoId }) {
                     onChange={handleChange}
                 />
 
+                {errores.fechaEmision &&
+
+                    <span className="error">
+
+                        {errores.fechaEmision}
+
+                    </span>
+
+                }
+
             </div>
 
             <div className="campo">
@@ -124,7 +285,27 @@ function FormSoap({ vehiculoId }) {
                     onChange={handleChange}
                 />
 
+                {errores.fechaVencimiento &&
+
+                    <span className="error">
+
+                        {errores.fechaVencimiento}
+
+                    </span>
+
+                }
+
             </div>
+
+            {errores.vehiculo &&
+
+                <span className="error">
+
+                    {errores.vehiculo}
+
+                </span>
+
+            }
 
             <div className="acciones">
 
@@ -132,7 +313,17 @@ function FormSoap({ vehiculoId }) {
                     className="btn-guardar"
                     onClick={guardar}
                 >
-                    Guardar SOAP
+
+                    {
+
+                        modo === "editar"
+
+                            ? "Actualizar SOAP"
+
+                            : "Guardar SOAP"
+
+                    }
+
                 </button>
 
             </div>

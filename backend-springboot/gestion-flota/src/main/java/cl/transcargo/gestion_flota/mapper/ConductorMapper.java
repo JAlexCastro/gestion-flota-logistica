@@ -17,6 +17,7 @@ public class ConductorMapper {
         conductor.setNombre(request.getNombre());
         conductor.setTelefono(request.getTelefono());
         conductor.setNumeroLicencia(request.getNumeroLicencia());
+        conductor.setClaseLicencia(request.getClaseLicencia());
         conductor.setFechaVencimientoLicencia(request.getFechaVencimientoLicencia());
         ///conductor.setUsuario(usuario);
 
@@ -32,6 +33,7 @@ public class ConductorMapper {
         response.setNombre(conductor.getNombre());
         response.setTelefono(conductor.getTelefono());
         response.setNumeroLicencia(conductor.getNumeroLicencia());
+        response.setClaseLicencia(conductor.getClaseLicencia());
         response.setFechaVencimientoLicencia(conductor.getFechaVencimientoLicencia());
 
 //        if(conductor.getUsuario() != null){

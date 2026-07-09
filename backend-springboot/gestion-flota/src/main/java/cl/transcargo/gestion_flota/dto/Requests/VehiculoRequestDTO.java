@@ -14,6 +14,7 @@ public class VehiculoRequestDTO {
     private String patente;
     private String marca;
     private String modelo;
+    private String nombre;
     private Integer anio;
     private Integer kilometrajeActual;
     private String estado;

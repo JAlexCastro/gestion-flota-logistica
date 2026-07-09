@@ -30,7 +30,7 @@ function ConductoresPage() {
             console.log(res.data);
 
             // ApiResponse -> data -> Array
-            setConductores(res.data.data);
+            setConductores(res.data);
 
         } catch (error) {
             console.error(error);

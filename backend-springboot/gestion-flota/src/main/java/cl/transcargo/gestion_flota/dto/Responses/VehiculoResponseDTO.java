@@ -15,9 +15,12 @@ public class VehiculoResponseDTO {
     private String patente;
     private String marca;
     private String modelo;
+    private String nombre;
     private Integer anio;
     private Integer kilometrajeActual;
     private String estado;
-    //private String conductor;
+
+    private Long conductorId;
+    private String conductorNombre;
 
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { listarVehiculos } from "../../services/vehiculoService";
+import { listarDocumentacion } from "../../services/documentacionService";
 
 import FormRevision from "./FormRevision";
 import FormEmision from "./FormEmision";
@@ -17,6 +18,8 @@ function RegistrarDocumentacion() {
 
     const [tab, setTab] = useState("revision");
 
+    const [documentacion, setDocumentacion] = useState(null);
+
     useEffect(() => {
 
         cargarVehiculos();
@@ -25,9 +28,49 @@ function RegistrarDocumentacion() {
 
     const cargarVehiculos = async () => {
 
-        const response = await listarVehiculos();
+        try {
 
-        setVehiculos(response.data);
+            const response = await listarVehiculos();
+
+            setVehiculos(response.data);
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+    };
+
+    const seleccionarVehiculo = async (id) => {
+
+        setVehiculoId(id);
+
+        if (!id) {
+
+            setDocumentacion(null);
+
+            return;
+
+        }
+
+        try {
+
+            const response = await listarDocumentacion();
+
+            const doc = response.data.find(
+
+                x => x.id === Number(id)
+
+            );
+
+            setDocumentacion(doc || {});
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
 
     };
 
@@ -35,31 +78,47 @@ function RegistrarDocumentacion() {
 
         <div className="registrar-container">
 
-            <h2>Registrar Documentación</h2>
+            <h2>
+
+                Registrar Documentación
+
+            </h2>
 
             <div className="campo">
 
-                <label>Vehículo</label>
+                <label>
+
+                    Vehículo
+
+                </label>
 
                 <select
+
                     value={vehiculoId}
-                    onChange={(e) => setVehiculoId(e.target.value)}
+
+                    onChange={(e) => seleccionarVehiculo(e.target.value)}
+
                 >
 
                     <option value="">
+
                         Seleccione un vehículo
+
                     </option>
 
                     {
 
-                        vehiculos.map(v => (
+                        vehiculos.map((v) => (
 
                             <option
+
                                 key={v.id}
+
                                 value={v.id}
+
                             >
 
-                                {v.marca} {v.modelo} - {v.patente}
+                                {v.nombre} - {v.patente}
 
                             </option>
 
@@ -105,41 +164,93 @@ function RegistrarDocumentacion() {
 
             {
 
-                tab === "revision" &&
+                tab === "revision" && (
 
-                <FormRevision
-                    vehiculoId={vehiculoId}
-                />
+                    documentacion?.revisionTecnica ?
 
-            }
+                        <p className="mensaje-existe">
 
-            {
+                            Este vehículo ya tiene una revisión técnica registrada.
+                            Utilice la opción <b>Actualizar Documentación</b>.
 
-                tab === "emision" &&
+                        </p>
 
-                <FormEmision
-                    vehiculoId={vehiculoId}
-                />
+                    :
 
-            }
+                        <FormRevision
+                            vehiculoId={vehiculoId}
+                        />
 
-            {
-
-                tab === "soap" &&
-
-                <FormSoap
-                    vehiculoId={vehiculoId}
-                />
+                )
 
             }
 
             {
 
-                tab === "permiso" &&
+                tab === "emision" && (
 
-                <FormPermiso
-                    vehiculoId={vehiculoId}
-                />
+                    documentacion?.emisionGases ?
+
+                        <p className="mensaje-existe">
+
+                            Este vehículo ya tiene una emisión de gases registrada.
+                            Utilice la opción <b>Actualizar Documentación</b>.
+
+                        </p>
+
+                    :
+
+                        <FormEmision
+                            vehiculoId={vehiculoId}
+                        />
+
+                )
+
+            }
+
+            {
+
+                tab === "soap" && (
+
+                    documentacion?.soap ?
+
+                        <p className="mensaje-existe">
+
+                            Este vehículo ya tiene un SOAP registrado.
+                            Utilice la opción <b>Actualizar Documentación</b>.
+
+                        </p>
+
+                    :
+
+                        <FormSoap
+                            vehiculoId={vehiculoId}
+                        />
+
+                )
+
+            }
+
+            {
+
+                tab === "permiso" && (
+
+                    documentacion?.permisoCirculacion ?
+
+                        <p className="mensaje-existe">
+
+                            Este vehículo ya tiene un permiso de circulación registrado.
+                            Utilice la opción <b>Actualizar Documentación</b>.
+
+                        </p>
+
+                    :
+
+                        <FormPermiso
+                            vehiculoId={vehiculoId}
+                        />
+
+                )
 
             }
 

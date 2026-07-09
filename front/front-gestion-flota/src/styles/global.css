@@ -11,3 +11,20 @@ a{
     color:inherit;
 
 }
+
+/* botón */
+.page-header button {
+
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+
+}
+
+.page-header button:hover {
+    background: #0055aa;
+}
+

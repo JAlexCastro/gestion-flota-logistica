@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 
-@Entity
+
 @Table(name = "permisos_circulacion")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class PermisoCirculacion {
 
     @Id

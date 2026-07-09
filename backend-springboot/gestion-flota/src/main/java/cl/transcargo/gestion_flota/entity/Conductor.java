@@ -23,8 +23,11 @@ public class Conductor {
 
     private String telefono;
 
-    @Column(name = "numero_licencia")
-    private String numeroLicencia;
+    @Column(name = "numero_licencia", nullable = false)
+    private Integer numeroLicencia;
+
+    @Column(name = "clase_licencia")
+    private String claseLicencia;
 
     @Column(name = "fecha_vencimiento_licencia")
     private LocalDate fechaVencimientoLicencia;

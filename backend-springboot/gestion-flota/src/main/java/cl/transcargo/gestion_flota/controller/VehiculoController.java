@@ -4,6 +4,7 @@ import cl.transcargo.gestion_flota.dto.ApiResponse;
 import cl.transcargo.gestion_flota.dto.Requests.VehiculoRequestDTO;
 import cl.transcargo.gestion_flota.dto.Responses.VehiculoResponseDTO;
 import cl.transcargo.gestion_flota.service.ServiceImpl.VehiculoServiceImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -94,4 +95,20 @@ public class VehiculoController {
         return ResponseEntity.ok(response);
     }
 
+    // Asignar conductor
+    @PutMapping("/{vehiculoId}/asignar-conductor/{conductorId}")
+    public ResponseEntity<ApiResponse<VehiculoResponseDTO>> asignarConductor(
+            @PathVariable Long vehiculoId,
+            @PathVariable Long conductorId) {
+
+        VehiculoResponseDTO response = service.asignarConductor(vehiculoId, conductorId);
+
+        ApiResponse<VehiculoResponseDTO> apiResponse = ApiResponse.<VehiculoResponseDTO>builder()
+                .message("Conductor asignado correctamente.")
+                .status(HttpStatus.OK.value())
+                .data(response)
+                .build();
+
+        return ResponseEntity.ok(apiResponse);
+    }
 }

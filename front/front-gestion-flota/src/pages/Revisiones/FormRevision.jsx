@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { crearRevision } from "../../services/revisionTecnicaService";
-
 import { useEffect, useState } from "react";
 
 import {
@@ -8,96 +5,178 @@ import {
     actualizarRevision
 } from "../../services/revisionTecnicaService";
 
+import "./DocumentacionForm.css";
+
 function FormRevision({
 
     vehiculoId,
-
     datos = null,
-
     modo = "crear"
 
 }) {
 
-    const [form, setForm] = useState({
+    const initialForm = {
+
         fechaRevision: "",
         fechaVencimiento: "",
         resultado: ""
-    });
+
+    };
+
+    const [form, setForm] = useState(initialForm);
+
+    const [errores, setErrores] = useState({});
 
     useEffect(() => {
 
-    if (datos) {
+        if (datos) {
 
-        setForm({
+            setForm({
 
-            fechaRevision: datos.fechaRevision || "",
+                fechaRevision: datos.fechaRevision || "",
+                fechaVencimiento: datos.fechaVencimiento || "",
+                resultado: datos.resultado || ""
 
-            fechaVencimiento: datos.fechaVencimiento || "",
+            });
 
-            resultado: datos.resultado || ""
+        } else {
 
-        });
+            setForm(initialForm);
 
-    }
+        }
+
+        setErrores({});
 
     }, [datos]);
 
     const handleChange = (e) => {
 
+        const { name, value } = e.target;
+
         setForm({
+
             ...form,
-            [e.target.name]: e.target.value
+            [name]: value
+
         });
+
+        setErrores({
+
+            ...errores,
+            [name]: ""
+
+        });
+
+    };
+
+    const validar = () => {
+
+        const nuevosErrores = {};
+
+        if (!vehiculoId) {
+
+            nuevosErrores.vehiculo = "Debe seleccionar un vehículo.";
+
+        }
+
+        if (!form.fechaRevision) {
+
+            nuevosErrores.fechaRevision = "La fecha de revisión es obligatoria.";
+
+        }
+
+        if (!form.fechaVencimiento) {
+
+            nuevosErrores.fechaVencimiento = "La fecha de vencimiento es obligatoria.";
+
+        }
+
+        if (
+
+            form.fechaRevision &&
+            form.fechaVencimiento &&
+            form.fechaVencimiento < form.fechaRevision
+
+        ) {
+
+            nuevosErrores.fechaVencimiento =
+                "La fecha de vencimiento debe ser posterior a la revisión.";
+
+        }
+
+        if (!form.resultado) {
+
+            nuevosErrores.resultado =
+                "Debe seleccionar un resultado.";
+
+        }
+
+        setErrores(nuevosErrores);
+
+        return Object.keys(nuevosErrores).length === 0;
 
     };
 
     const guardar = async () => {
 
-    if (!vehiculoId) {
+        if (!validar()) return;
 
-        alert("Seleccione un vehículo.");
+        const body = {
 
-        return;
+            vehiculoId: Number(vehiculoId),
 
-    }
+            fechaRevision: form.fechaRevision,
 
-    const body = {
+            fechaVencimiento: form.fechaVencimiento,
 
-        vehiculoId: Number(vehiculoId),
+            resultado: form.resultado
 
-        fechaRevision: form.fechaRevision,
+        };
 
-        fechaVencimiento: form.fechaVencimiento,
+        try {
 
-        resultado: form.resultado
+            if (modo === "editar") {
 
-    };
+                if (!datos?.id) {
 
-    try {
+                    alert("No se encontró la revisión a actualizar.");
 
-        if (modo === "editar") {
+                    return;
 
-            await actualizarRevision(datos.id, body);
+                }
 
-            alert("Revisión actualizada.");
+                await actualizarRevision(datos.id, body);
 
-        } else {
+                alert("Revision Técnica Actualizada");
 
-            await crearRevision(body);
+            } else {
 
-            alert("Revisión registrada.");
+                await crearRevision(body);
+
+                alert("Revisión técnica registrada correctamente.");
+
+                setForm(initialForm);
+
+            }
+
+            setErrores({});
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+
+                error.response?.data?.message ||
+
+                "Ocurrió un error al guardar."
+
+            );
 
         }
 
-    } catch (error) {
-
-        console.error(error);
-
-        alert("Ocurrió un error.");
-
-    }
-
     };
+
     return (
 
         <div className="form-documento">
@@ -113,6 +192,16 @@ function FormRevision({
                     onChange={handleChange}
                 />
 
+                {errores.fechaRevision && (
+
+                    <span className="error">
+
+                        {errores.fechaRevision}
+
+                    </span>
+
+                )}
+
             </div>
 
             <div className="campo">
@@ -125,6 +214,16 @@ function FormRevision({
                     value={form.fechaVencimiento}
                     onChange={handleChange}
                 />
+
+                {errores.fechaVencimiento && (
+
+                    <span className="error">
+
+                        {errores.fechaVencimiento}
+
+                    </span>
+
+                )}
 
             </div>
 
@@ -152,7 +251,27 @@ function FormRevision({
 
                 </select>
 
+                {errores.resultado && (
+
+                    <span className="error">
+
+                        {errores.resultado}
+
+                    </span>
+
+                )}
+
             </div>
+
+            {errores.vehiculo && (
+
+                <span className="error">
+
+                    {errores.vehiculo}
+
+                </span>
+
+            )}
 
             <div className="acciones">
 
@@ -162,11 +281,13 @@ function FormRevision({
                 >
 
                     {
+
                         modo === "editar"
 
                             ? "Actualizar Revisión"
 
                             : "Guardar Revisión"
+
                     }
 
                 </button>

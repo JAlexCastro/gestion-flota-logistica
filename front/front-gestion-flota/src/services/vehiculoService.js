@@ -39,3 +39,13 @@ export const eliminarVehiculo = async (id) => {
     return response.data;
 
 };
+
+export const asignarConductor = async (vehiculoId, conductorId) => {
+
+    const response = await api.put(
+        `/vehiculos/${vehiculoId}/asignar-conductor/${conductorId}`
+    );
+
+    return response.data;
+
+};

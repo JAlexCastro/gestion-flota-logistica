@@ -37,9 +37,12 @@ public class MantencionMapper {
 
         response.setFecha(mantencion.getFecha());
         response.setKilometraje(mantencion.getKilometraje());
+        response.setKilometrajeRestantes(mantencion.getKilometraje() - mantencion.getVehiculo().getKilometrajeActual());
         response.setTipo(mantencion.getTipo());
+        response.setKilometrajeActual(mantencion.getVehiculo().getKilometrajeActual());
         response.setDescripcion(mantencion.getDescripcion());
         response.setTaller(mantencion.getTaller());
+        response.setEstado(mantencion.getEstado());
         response.setPatente(mantencion.getVehiculo().getPatente());
 
         return response;
