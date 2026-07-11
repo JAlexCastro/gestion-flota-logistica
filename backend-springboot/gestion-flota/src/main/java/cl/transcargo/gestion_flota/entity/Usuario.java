@@ -22,6 +22,9 @@ public class Usuario {
     @Column(nullable = false, length = 255)
     private String password;
 
+    @Column(nullable = false, length = 100)
+    private String name;
+
     @Column(nullable = false, length = 20)
     private String rol;
 

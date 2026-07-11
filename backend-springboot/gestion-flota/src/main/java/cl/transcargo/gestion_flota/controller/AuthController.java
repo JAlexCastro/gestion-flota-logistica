@@ -2,6 +2,8 @@ package cl.transcargo.gestion_flota.controller;
 
 import cl.transcargo.gestion_flota.dto.Requests.LoginRequest;
 import cl.transcargo.gestion_flota.dto.Responses.LoginResponse;
+import cl.transcargo.gestion_flota.entity.Usuario;
+import cl.transcargo.gestion_flota.repository.RUsuario;
 import cl.transcargo.gestion_flota.security.jwt.JwtService;
 
 import org.springframework.http.ResponseEntity;
@@ -28,16 +30,20 @@ public class AuthController {
 
     private final JwtService jwtService;
 
+    private final RUsuario usuarioRepository;
+
     public AuthController(AuthenticationManager authenticationManager,
-                          JwtService jwtService) {
+                          JwtService jwtService,
+                          RUsuario usuarioRepository) {
 
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
+        this.usuarioRepository = usuarioRepository;
 
     }
 
     /**
-     * Autentica al usuario y devuelve un JWT.
+     * Autentica al usuario y devuelve un JWT junto con su información.
      */
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(
@@ -58,11 +64,25 @@ public class AuthController {
         UserDetails user =
                 (UserDetails) authentication.getPrincipal();
 
+        // Genera el JWT
         String token = jwtService.generarToken(user);
 
+        // Obtiene la entidad Usuario desde la base de datos
+        Usuario usuario = usuarioRepository
+                .findByUsername(user.getUsername())
+                .orElseThrow(() ->
+                        new RuntimeException("Usuario no encontrado."));
+
+        // Devuelve el token y la información del usuario
         return ResponseEntity.ok(
 
-                new LoginResponse(token)
+                new LoginResponse(
+                        token,
+                        usuario.getUsername(),
+                        usuario.getName(),
+                        usuario.getRol()
+
+                )
 
         );
 

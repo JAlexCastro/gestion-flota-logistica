@@ -15,4 +15,6 @@ public class UsuarioResponseDTO {
 
     private String rol;
 
+    private String name;
+
 }

@@ -31,38 +31,51 @@ function LoginPage() {
 
     const iniciarSesion = async (e) => {
 
-        e.preventDefault();
+    e.preventDefault();
 
-        setError("");
+    setError("");
 
-        try {
+    try {
 
-            const response = await login(
+        const response = await login(
 
-                form.username,
-                form.password
+            form.username,
+            form.password
+        );
 
-            );
+        console.log(response);
 
-            localStorage.setItem(
-                "token",
-                response.token
-            );
+        // Guarda el JWT
+        localStorage.setItem(
+            "token",
+            response.token
+        );
 
-            localStorage.setItem(
-                "usuario",
-                form.username
-            );
+        // Guarda la información del usuario
+        localStorage.setItem(
+            "username",
+            response.username
+        );
 
-            navigate("/");
+        localStorage.setItem(
+            "usuario",
+            response.name
+        );
 
-        } catch (err) {
+        localStorage.setItem(
+            "rol",
+            response.rol
+        );
 
-            setError("Usuario o contraseña incorrectos.");
+        navigate("/");
 
-        }
+    } catch (err) {
 
-    };
+        setError("Usuario o contraseña incorrectos.");
+
+    }
+
+};
 
     return (
 

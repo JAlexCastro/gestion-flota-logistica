@@ -16,4 +16,6 @@ public class UsuarioRequestDTO {
 
     private String rol;
 
+    private String name;
+
 }

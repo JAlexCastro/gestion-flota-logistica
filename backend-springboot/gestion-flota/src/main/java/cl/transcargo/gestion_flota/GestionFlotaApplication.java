@@ -10,9 +10,10 @@ public class GestionFlotaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(GestionFlotaApplication.class, args);
 
-		///BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		//BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-		///System.out.println("******* Contrasena: " + encoder.encode("contrasena"));
+		//System.out.println("******* Contrasena Manuel: " + encoder.encode("contrasena"));
+		//System.out.println("******* Contrasena Carlos A.: " + encoder.encode("contrasena"));
 
 	}
 

@@ -15,6 +15,7 @@ public class UsuarioMapper {
         usuario.setUsername(request.getUsername());
         usuario.setPassword(request.getPassword());
         usuario.setRol(request.getRol());
+        usuario.setName(request.getName());
 
         return usuario;
     }
@@ -26,6 +27,7 @@ public class UsuarioMapper {
         response.setId(usuario.getId());
         response.setUsername(usuario.getUsername());
         response.setRol(usuario.getRol());
+        response.setName(usuario.getName());
 
         return response;
     }
@@ -34,6 +36,7 @@ public class UsuarioMapper {
 
         usuario.setUsername(request.getUsername());
         usuario.setPassword(request.getPassword());
+        usuario.setName(request.getName());
         usuario.setRol(request.getRol());
 
     }
