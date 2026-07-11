@@ -1,19 +1,33 @@
-import axios from "axios";
-
-const API = "http://localhost:8080/usuarios";
+import api from "./api";
 
 export const listarUsuarios = async () => {
-    return await axios.get(`${API}/list`);
+
+    const response = await api.get("/usuarios/list");
+
+    return response.data;
+
 };
 
 export const crearUsuario = async (data) => {
-    return await axios.post(`${API}/save`, data);
+
+    const response = await api.post("/usuarios/save", data);
+
+    return response.data;
+
 };
 
 export const actualizarUsuario = async (id, data) => {
-    return await axios.put(`${API}/update/${id}`, data);
+
+    const response = await api.put(`/usuarios/update/${id}`, data);
+
+    return response.data;
+
 };
 
 export const eliminarUsuario = async (id) => {
-    return await axios.delete(`${API}/delete/${id}`);
+
+    const response = await api.delete(`/usuarios/delete/${id}`);
+
+    return response.data;
+
 };

@@ -28,12 +28,10 @@ function DashboardPage() {
         cargarDashboard();
     }, []);
 
+
     const cargarDashboard = async () => {
-
         try {
-
             const [
-
                 vehiculosData,
                 conductoresData,
                 mantencionesData,
@@ -55,16 +53,24 @@ function DashboardPage() {
                 listarEmisiones()
 
             ]);
+            console.log(vehiculosData);
+            console.log(conductoresData);
+            console.log(mantencionesData);
+            console.log(fallasData);
+            console.log(soapsData);
+            console.log(revisionesData);
+            console.log(permisosData);
+            console.log(emisionesData);
 
-            setVehiculos(vehiculosData.data);
-            setConductores(conductoresData.data);
-            setMantenciones(mantencionesData.data.data);
-            setFallas(fallasData.data);
+            setVehiculos(vehiculosData.data || []);
+            setConductores(conductoresData.data || []);
+            setMantenciones(mantencionesData.data || []);
+            setFallas(fallasData.data || []);
 
-            setSoaps(soapsData.data);
-            setRevisiones(revisionesData.data);
-            setPermisos(permisosData.data);
-            setEmisiones(emisionesData.data);
+            setSoaps(soapsData.data || []);
+            setRevisiones(revisionesData.data || []);
+            setPermisos(permisosData.data || []);
+            setEmisiones(emisionesData.data || []);
 
         } catch (error) {
 
@@ -173,12 +179,7 @@ function DashboardPage() {
                     color="#43a047"
                 />
 
-                <DashboardCard
-                    title="Mantenciones"
-                    value={mantenciones.length}
-                    icon="🔧"
-                    color="#fb8c00"
-                />
+                
 
                 <DashboardCard
                     title="Fallas"
@@ -199,11 +200,6 @@ function DashboardPage() {
                     icon="🔧"
                 />
 
-                <DashboardCard
-                    title="Fallas"
-                    value={fallas.length}
-                    icon="⚠️"
-                />
 
             </div>
 

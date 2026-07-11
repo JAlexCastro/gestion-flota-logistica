@@ -33,3 +33,45 @@
 .right {
     font-size: 14px;
 }
+
+.right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.usuario{
+
+    font-weight:600;
+
+    color:#fff;
+
+}
+
+.logout-btn{
+
+    background:#d32f2f;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 14px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.logout-btn:hover{
+
+    background:#b71c1c;
+
+}

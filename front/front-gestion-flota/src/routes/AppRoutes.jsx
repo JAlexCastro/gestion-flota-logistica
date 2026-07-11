@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import DashboardLayout from "../layouts/DashboardLayout";
- ///import Dashboard from "../pages/Dashboard/Dashboard";
 import VehiculosPage from "../pages/Vehiculos/VehiculosPage";
 import ConductoresPage from "../pages/Conductores/ConductoresPage";
 import UsuariosPage from "../pages/Usuarios/UsuariosPage";
@@ -10,6 +9,9 @@ import RevisionesPage from "../pages/Revisiones/RevisionesPage";
 ///import SoapPage from "../pages/SOAP/SoapPage";
 import FallasPage from "../pages/Fallas/FallasPage.jsx";
 import DashboardPage from "../pages/Dashboard/DashboardPage";
+
+import LoginPage from "../pages/Login/LoginPage";
+import PrivateRoute from "./PrivateRoute";
 
 
 function AppRoutes() {
@@ -20,37 +22,55 @@ function AppRoutes() {
 
             <Routes>
 
-                <Route element={<DashboardLayout />}>
+                {/* Ruta pública */}
 
-                    <Route
-                        path="/"
-                        element={<DashboardPage />}
-                    />
-                    <Route
-                        path="/vehiculos"
-                        element={<VehiculosPage />}
-                    />
+                <Route
+                    path="/login"
+                    element={<LoginPage />}
+                />
 
-                    <Route
-                        path="/conductores"
-                        element={<ConductoresPage />}
-                    />
+                {/* Rutas protegidas */}
 
-                    <Route path="/usuarios" element={<UsuariosPage />} />
+                <Route element={<PrivateRoute />}>
 
-                    <Route
-                        path="/mantenciones"
-                        element={<MantencionesPage />}
-                    />
-                    <Route
-                        path="/revisiones"
-                        element={<RevisionesPage />}
+                    <Route element={<DashboardLayout />}>
+
+                        <Route
+                            path="/"
+                            element={<DashboardPage />}
                         />
 
-                    <Route
-                        path="/fallas"
-                        element={<FallasPage />}
-                    />
+                        <Route
+                            path="/vehiculos"
+                            element={<VehiculosPage />}
+                        />
+
+                        <Route
+                            path="/conductores"
+                            element={<ConductoresPage />}
+                        />
+
+                        <Route
+                            path="/usuarios"
+                            element={<UsuariosPage />}
+                        />
+
+                        <Route
+                            path="/mantenciones"
+                            element={<MantencionesPage />}
+                        />
+
+                        <Route
+                            path="/revisiones"
+                            element={<RevisionesPage />}
+                        />
+
+                        <Route
+                            path="/fallas"
+                            element={<FallasPage />}
+                        />
+
+                    </Route>
 
                 </Route>
 
@@ -61,5 +81,5 @@ function AppRoutes() {
     );
 
 }
-///<Route path="/soap" element={<SoapPage />} />
+
 export default AppRoutes;

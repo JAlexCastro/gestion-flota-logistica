@@ -1,19 +1,21 @@
-import axios from "axios";
-
-const API = "http://localhost:8080/mantenciones";
+import api from "./api";
 
 export const listarMantenciones = async () => {
-    return await axios.get(`${API}/list`);
+    const response = await api.get("/mantenciones/list");
+    return response.data;
 };
 
 export const crearMantencion = async (data) => {
-    return await axios.post(`${API}/save`, data);
+    const response = await api.post("/mantenciones/save", data);
+    return response.data;
 };
 
 export const actualizarMantencion = async (id, data) => {
-    return await axios.put(`${API}/update/${id}`, data);
+    const response = await api.put(`/mantenciones/update/${id}`, data);
+    return response.data;
 };
 
 export const eliminarMantencion = async (id) => {
-    return await axios.delete(`${API}/delete/${id}`);
+    const response = await api.delete(`/mantenciones/delete/${id}`);
+    return response.data;
 };

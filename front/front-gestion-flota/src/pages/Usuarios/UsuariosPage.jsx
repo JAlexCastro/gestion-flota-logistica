@@ -25,7 +25,7 @@ function UsuariosPage() {
 
         const res = await listarUsuarios();
 
-        setUsuarios(res.data.data);
+        setUsuarios(res.data);
 
     };
 

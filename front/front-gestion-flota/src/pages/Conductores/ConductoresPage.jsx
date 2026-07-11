@@ -24,9 +24,7 @@ function ConductoresPage() {
 
     const cargar = async () => {
         try {
-
             const res = await listarConductores();
-
             console.log(res.data);
 
             // ApiResponse -> data -> Array
@@ -38,24 +36,20 @@ function ConductoresPage() {
     };
 
     const handleSubmit = async (data) => {
-
+        
         try {
-
             if (edit) {
                 await actualizarConductor(edit.id, data);
             } else {
                 await crearConductor(data);
             }
-
             setOpen(false);
             setEdit(null);
 
             cargar();
-
         } catch (error) {
             console.error(error);
         }
-
     };
 
     const handleDelete = async (id) => {

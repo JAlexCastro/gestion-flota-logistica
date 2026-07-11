@@ -1,11 +1,26 @@
 import "./Navbar.css";
 import { useLayout } from "../../context/LayoutContext";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
 
     const { toggleSidebar } = useLayout();
 
+    const navigate = useNavigate();
+
+    const usuario = localStorage.getItem("usuario");
+
+    const cerrarSesion = () => {
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("usuario");
+
+        navigate("/login");
+
+    };
+
     return (
+
         <header className="navbar">
 
             <div className="left">
@@ -22,11 +37,28 @@ function Navbar() {
             </div>
 
             <div className="right">
-                <span>Administrador</span>
+
+                <span className="usuario">
+
+                    👤 {usuario}
+
+                </span>
+
+                <button
+                    className="logout-btn"
+                    onClick={cerrarSesion}
+                >
+
+                    Cerrar sesión
+
+                </button>
+
             </div>
 
         </header>
+
     );
+
 }
 
 export default Navbar;

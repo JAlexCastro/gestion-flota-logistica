@@ -25,7 +25,7 @@ function MantencionesPage() {
 
         const res = await listarMantenciones();
 
-        setMantenciones(res.data.data);
+        setMantenciones(res.data);
 
     };
 
