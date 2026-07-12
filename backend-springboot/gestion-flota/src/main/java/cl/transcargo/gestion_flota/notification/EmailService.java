@@ -20,9 +20,7 @@ public class EmailService {
     private String remitente;
 
     public EmailService(JavaMailSender mailSender) {
-
         this.mailSender = mailSender;
-
     }
 
     /**
