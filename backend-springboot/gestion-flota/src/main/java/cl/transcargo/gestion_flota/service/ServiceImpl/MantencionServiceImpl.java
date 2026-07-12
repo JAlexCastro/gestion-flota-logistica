@@ -65,32 +65,10 @@ public class MantencionServiceImpl implements IMantencion {
 
         mantencion = repository.save(mantencion);
 
-        Integer kilometrosRestantes =
-                mantencion.getKilometraje() - vehiculo.getKilometrajeActual();
-
-        if (kilometrosRestantes <= 2000 && kilometrosRestantes >= 0) {
-
-            List<Usuario> destinatarios =
-                    usuarioRepository.findByRolIn(
-                            List.of("ADMIN", "OPERADOR")
-                    );
-
-            for (Usuario usuario : destinatarios) {
-                try {
-                    notificationService.proximaMantencion(
-                            usuario.getUsername(),
-                            vehiculo.getPatente(),
-                            vehiculo.getKilometrajeActual(),
-                            mantencion.getKilometraje(),
-                            kilometrosRestantes
-                    );
-                } catch (Exception e) {
-                    System.err.println(
-                            "No fue posible enviar el correo a "
-                                    + usuario.getUsername()
-                    );
-                }}
-        }
+        notificationService.verificarProximaMantencion(
+                vehiculo,
+                mantencion
+        );
 
         return mapper.toResponse(mantencion);
     }

@@ -19,6 +19,10 @@ function VehiculosPage() {
 
     const [vehiculos, setVehiculos] = useState([]);
 
+    const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState("");
+
+    const [kilometraje, setKilometraje] = useState("");
+
     // Modal Crear / Editar
     const [openModal, setOpenModal] = useState(false);
     const [vehiculoEdit, setVehiculoEdit] = useState(null);
@@ -96,6 +100,32 @@ function VehiculosPage() {
 
     };
 
+    const actualizarKilometraje = async () => {
+
+        if (!vehiculoSeleccionado || !kilometraje) {
+            alert("Seleccione un vehículo e ingrese el kilometraje.");
+            return;
+        }
+
+        const vehiculo = vehiculos.find(
+            v => v.id === Number(vehiculoSeleccionado)
+        );
+
+        await actualizarVehiculo(
+            vehiculo.id,
+            {
+                ...vehiculo,
+                kilometrajeActual: Number(kilometraje)
+            }
+        );
+
+        setVehiculoSeleccionado("");
+        setKilometraje("");
+
+        cargarVehiculos();
+
+    };
+
     return (
 
         <div className="vehiculos-page">
@@ -107,6 +137,78 @@ function VehiculosPage() {
                 <button onClick={handleOpenCreate}>
                     Nuevo Vehículo
                 </button>
+
+                <div className="actualizar-km-card">
+
+                    <h3>
+
+                        Actualizar Kilometraje
+
+                    </h3>
+
+                    <div className="actualizar-km-form">
+
+                        <select
+
+                            value={vehiculoSeleccionado}
+
+                            onChange={(e) =>
+                                setVehiculoSeleccionado(e.target.value)
+                            }
+
+                        >
+
+                            <option value="">
+
+                                Seleccione un vehículo
+
+                            </option>
+
+                            {
+
+                                vehiculos.map((v) => (
+
+                                    <option
+                                        key={v.id}
+                                        value={v.id}
+                                    >
+
+                                        {v.nombre} - {v.patente}
+
+                                    </option>
+
+                                ))
+
+                            }
+
+                        </select>
+
+                        <input
+
+                            type="number"
+
+                            placeholder="Kilometraje actual"
+
+                            value={kilometraje}
+
+                            onChange={(e) =>
+                                setKilometraje(e.target.value)
+                            }
+
+                        />
+
+                        <button
+                            className="btn-primary"
+                            onClick={actualizarKilometraje}
+                        >
+
+                            Actualizar
+
+                        </button>
+
+                    </div>
+
+                </div>
 
             </div>
 

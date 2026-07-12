@@ -1,6 +1,12 @@
 package cl.transcargo.gestion_flota.notification;
 
+import cl.transcargo.gestion_flota.entity.Mantencion;
+import cl.transcargo.gestion_flota.entity.Usuario;
+import cl.transcargo.gestion_flota.entity.Vehiculo;
+import cl.transcargo.gestion_flota.repository.RUsuario;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Servicio encargado de construir los mensajes de notificación.
@@ -12,10 +18,12 @@ import org.springframework.stereotype.Service;
 public class NotificationService {
 
     private final EmailService emailService;
+    private final RUsuario usuarioRepository;
 
-    public NotificationService(EmailService emailService) {
+    public NotificationService(EmailService emailService, RUsuario usuarioRepository) {
 
         this.emailService = emailService;
+        this.usuarioRepository = usuarioRepository;
 
     }
 
@@ -166,6 +174,43 @@ public class NotificationService {
                 mensaje
 
         );
+
+    }
+    public void verificarProximaMantencion(Vehiculo vehiculo,
+                                           Mantencion mantencion) {
+
+        Integer kilometrosRestantes =
+                mantencion.getKilometraje()
+                        - vehiculo.getKilometrajeActual();
+
+        if (kilometrosRestantes > 2000 || kilometrosRestantes < 0) {
+            return;
+        }
+
+        List<Usuario> destinatarios =
+                usuarioRepository.findByRolIn(
+                        List.of("ADMIN", "OPERADOR")
+                );
+
+        for (Usuario usuario : destinatarios) {
+
+            try {
+
+                proximaMantencion(
+                        usuario.getUsername(),
+                        vehiculo.getPatente(),
+                        vehiculo.getKilometrajeActual(),
+                        mantencion.getKilometraje(),
+                        kilometrosRestantes
+                );
+
+            } catch (Exception e) {
+
+                System.err.println(e.getMessage());
+
+            }
+
+        }
 
     }
 
