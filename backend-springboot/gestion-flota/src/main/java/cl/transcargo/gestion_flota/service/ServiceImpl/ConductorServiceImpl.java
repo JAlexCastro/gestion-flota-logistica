@@ -11,6 +11,7 @@ import cl.transcargo.gestion_flota.service.IService.IConductor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import cl.transcargo.gestion_flota.notification.NotificationService;
 
 @Service
 public class ConductorServiceImpl implements IConductor {
@@ -18,11 +19,14 @@ public class ConductorServiceImpl implements IConductor {
     private final RConductor repository;
     private final RUsuario usuarioRepository;
     private final ConductorMapper mapper;
+    private final NotificationService notificationService;
 
-    public ConductorServiceImpl(RConductor repository, RUsuario usuarioRepository, ConductorMapper mapper ){
+    public ConductorServiceImpl(RConductor repository, RUsuario usuarioRepository, ConductorMapper mapper, NotificationService notificationService ){
         this.repository = repository;
         this.usuarioRepository = usuarioRepository;
         this.mapper = mapper;
+        this.notificationService = notificationService;
+
     }
 
 
@@ -48,10 +52,24 @@ public class ConductorServiceImpl implements IConductor {
     public ConductorResponseDTO crear(ConductorRequestDTO request) {
 
         Conductor conductor = mapper.toEntity(request);
-
         conductor = repository.save(conductor);
 
+        List<Usuario> destinatarios = usuarioRepository.findByRolIn(
+                List.of("ADMIN", "OPERADOR"));
+        for (Usuario usuario : destinatarios) {
+            try {
+                notificationService.nuevoConductor(
+                        usuario.getUsername(), // correo
+                        conductor.getNombre()
+                );
+            } catch (Exception e) {
+                System.err.println(
+                        "No fue posible enviar el correo a "
+                                + usuario.getUsername()); }
+        }
+
         return mapper.toResponse(conductor);
+
     }
 
     @Override

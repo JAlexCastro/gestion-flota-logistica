@@ -58,10 +58,7 @@ public class VehiculoServiceImpl implements IVehiculo {
         response.setEstado(vehiculo.getEstado());
         //response.setConductor(vehiculo.getConductor().getNombre());
 
-
         return response;
-
-
     }
 
     // Crear

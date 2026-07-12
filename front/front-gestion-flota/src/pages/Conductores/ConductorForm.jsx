@@ -4,12 +4,13 @@ import "./ConductorForm.css";
 function ConductorForm({ onSubmit, conductor }) {
 
     const initialForm = {
-        rut: "",
-        nombre: "",
-        telefono: "",
-        numeroLicencia: "",
-        fechaVencimientoLicencia: ""
-    };
+    rut: "",
+    nombre: "",
+    telefono: "",
+    numeroLicencia: "",
+    claseLicencia: "",
+    fechaVencimientoLicencia: ""
+};
 
     const [form, setForm] = useState(initialForm);
 
@@ -53,6 +54,11 @@ function ConductorForm({ onSubmit, conductor }) {
             errores.rut = "El RUT es obligatorio.";
         } else if (!rutRegex.test(form.rut)) {
             errores.rut = "Formato válido: 12.345.678-9";
+        }
+
+        if (!form.claseLicencia) {
+            errores.claseLicencia =
+                "Seleccione la clase de licencia.";
         }
 
         if (!form.nombre.trim()) {
@@ -163,6 +169,38 @@ function ConductorForm({ onSubmit, conductor }) {
 
                 {errores.telefono &&
                     <span className="error">{errores.telefono}</span>
+                }
+
+            </div>
+            <div>
+                <select
+                    name="claseLicencia"
+                    value={form.claseLicencia}
+                    onChange={handleChange}
+                >
+                    <option value="">
+                        Seleccione la clase
+                    </option>
+
+                    <option value="A2">
+                        A2
+                    </option>
+                    <option value="A3">
+                        A3
+                    </option>
+                    <option value="A4">
+                        A4
+                    </option>
+                    <option value="A5">
+                        A5
+                    </option>
+                </select>
+
+                {
+                    errores.claseLicencia &&
+                    <span className="error">
+                        {errores.claseLicencia}
+                    </span>
                 }
 
             </div>
