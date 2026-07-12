@@ -4,6 +4,9 @@ import cl.transcargo.gestion_flota.dto.Requests.VehiculoRequestDTO;
 import cl.transcargo.gestion_flota.dto.Responses.VehiculoResponseDTO;
 import cl.transcargo.gestion_flota.entity.Vehiculo;
 import cl.transcargo.gestion_flota.mapper.VehiculoMapper;
+import cl.transcargo.gestion_flota.notification.NotificationService;
+import cl.transcargo.gestion_flota.repository.RMantencion;
+import cl.transcargo.gestion_flota.repository.RUsuario;
 import cl.transcargo.gestion_flota.repository.RVehiculo;
 import cl.transcargo.gestion_flota.service.ServiceImpl.VehiculoServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -29,6 +32,15 @@ class VehiculoServiceImplTest {
 
     @InjectMocks
     private VehiculoServiceImpl service;
+
+    @Mock
+    private RMantencion mantencionRepository;
+
+    @Mock
+    private RUsuario usuarioRepository;
+
+    @Mock
+    private NotificationService notificationService;
 
     @Test
     void deberiaListarVehiculos() {
@@ -106,23 +118,43 @@ class VehiculoServiceImplTest {
         VehiculoResponseDTO response = new VehiculoResponseDTO();
         response.setPatente("BBBB22");
 
-        when(repository.findById(1L)).thenReturn(Optional.of(vehiculo));
-        when(repository.save(any(Vehiculo.class))).thenReturn(vehiculo);
-        when(mapper.toResponse(any(Vehiculo.class))).thenReturn(response);
+        when(repository.findById(1L))
+                .thenReturn(Optional.of(vehiculo));
+
+        when(repository.save(any(Vehiculo.class)))
+                .thenReturn(vehiculo);
+
+        when(mapper.toResponse(any(Vehiculo.class)))
+                .thenReturn(response);
+
+        // No existe mantención asociada
+        when(mantencionRepository.findByVehiculoId(1L))
+                .thenReturn(Optional.empty());
 
         VehiculoResponseDTO resultado = service.actualizar(1L, request);
 
         assertEquals("BBBB22", resultado.getPatente());
 
         verify(repository).save(any(Vehiculo.class));
+
+        verify(notificationService, never())
+                .proximaMantencion(any(), any(), any(), any(), any());
+
     }
 
     @Test
     void deberiaEliminarVehiculo() {
 
+        Vehiculo vehiculo = new Vehiculo();
+        vehiculo.setId(1L);
+
+        when(repository.findById(1L))
+                .thenReturn(Optional.of(vehiculo));
+
         service.eliminar(1L);
 
-        verify(repository).deleteById(1L);
+        verify(repository).delete(vehiculo);
+
     }
 
     @Test

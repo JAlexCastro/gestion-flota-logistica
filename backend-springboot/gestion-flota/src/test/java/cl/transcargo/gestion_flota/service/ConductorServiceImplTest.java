@@ -65,7 +65,7 @@ class ConductorServiceImplTest {
         conductor.setRut("11.111.111-1");
         conductor.setNombre("Juan Pérez");
         conductor.setTelefono("987654321");
-        conductor.setNumeroLicencia("LIC123");
+        conductor.setNumeroLicencia(111111);
         conductor.setFechaVencimientoLicencia(LocalDate.of(2028, 5, 20));
 
         ConductorResponseDTO response = new ConductorResponseDTO();
@@ -89,7 +89,7 @@ class ConductorServiceImplTest {
         request.setRut("11.111.111-1");
         request.setNombre("Juan Pérez");
         request.setTelefono("987654321");
-        request.setNumeroLicencia("LIC123");
+        request.setNumeroLicencia(111111);
         request.setFechaVencimientoLicencia(LocalDate.of(2028, 5, 20));
 
         Conductor conductor = new Conductor();
@@ -119,7 +119,7 @@ class ConductorServiceImplTest {
         request.setRut("22.222.222-2");
         request.setNombre("Pedro González");
         request.setTelefono("999999999");
-        request.setNumeroLicencia("LIC999");
+        request.setNumeroLicencia(111111);
         request.setFechaVencimientoLicencia(LocalDate.of(2030, 10, 15));
 
         ConductorResponseDTO response = new ConductorResponseDTO();

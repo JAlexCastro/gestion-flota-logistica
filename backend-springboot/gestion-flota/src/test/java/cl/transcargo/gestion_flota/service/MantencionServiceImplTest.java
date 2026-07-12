@@ -5,6 +5,7 @@ import cl.transcargo.gestion_flota.dto.Responses.MantencionResponseDTO;
 import cl.transcargo.gestion_flota.entity.Mantencion;
 import cl.transcargo.gestion_flota.entity.Vehiculo;
 import cl.transcargo.gestion_flota.mapper.MantencionMapper;
+import cl.transcargo.gestion_flota.notification.NotificationService;
 import cl.transcargo.gestion_flota.repository.RMantencion;
 import cl.transcargo.gestion_flota.repository.RVehiculo;
 import cl.transcargo.gestion_flota.service.ServiceImpl.MantencionServiceImpl;
@@ -33,8 +34,49 @@ class MantencionServiceImplTest {
     @Mock
     private MantencionMapper mapper;
 
+    @Mock
+    private NotificationService notificationService;
+
     @InjectMocks
     private MantencionServiceImpl service;
+
+    @Test
+    void deberiaCrearMantencion() {
+
+        Vehiculo vehiculo = new Vehiculo();
+        vehiculo.setId(1L);
+
+        MantencionRequestDTO request = new MantencionRequestDTO();
+        request.setVehiculoId(1L);
+        request.setFecha(LocalDate.now());
+        request.setKilometraje(25000);
+        request.setTipo("Preventiva");
+        request.setDescripcion("Cambio de aceite");
+        request.setTaller("Toyota");
+
+        Mantencion mantencion = new Mantencion();
+
+        MantencionResponseDTO response = new MantencionResponseDTO();
+        response.setVehiculoId(1L);
+
+        when(vehiculoRepository.findById(1L))
+                .thenReturn(Optional.of(vehiculo));
+
+        when(mapper.toEntity(request, vehiculo))
+                .thenReturn(mantencion);
+
+        when(repository.save(mantencion))
+                .thenReturn(mantencion);
+
+        when(mapper.toResponse(mantencion))
+                .thenReturn(response);
+
+        MantencionResponseDTO resultado = service.crear(request);
+
+        assertEquals(1L, resultado.getVehiculoId());
+
+        verify(repository).save(mantencion);
+    }
 
     @Test
     void deberiaListarMantenciones() {
@@ -74,43 +116,7 @@ class MantencionServiceImplTest {
         verify(repository).findById(1L);
     }
 
-    @Test
-    void deberiaCrearMantencion() {
 
-        Vehiculo vehiculo = new Vehiculo();
-        vehiculo.setId(1L);
-
-        MantencionRequestDTO request = new MantencionRequestDTO();
-        request.setVehiculoId(1L);
-        request.setFecha(LocalDate.now());
-        request.setKilometraje(25000);
-        request.setTipo("Preventiva");
-        request.setDescripcion("Cambio de aceite");
-        request.setTaller("Toyota");
-
-        Mantencion mantencion = new Mantencion();
-
-        MantencionResponseDTO response = new MantencionResponseDTO();
-        response.setVehiculoId(1L);
-
-        when(vehiculoRepository.findById(1L))
-                .thenReturn(Optional.of(vehiculo));
-
-        when(mapper.toEntity(request, vehiculo))
-                .thenReturn(mantencion);
-
-        when(repository.save(mantencion))
-                .thenReturn(mantencion);
-
-        when(mapper.toResponse(mantencion))
-                .thenReturn(response);
-
-        MantencionResponseDTO resultado = service.crear(request);
-
-        assertEquals(1L, resultado.getVehiculoId());
-
-        verify(repository).save(mantencion);
-    }
 
     @Test
     void deberiaActualizarMantencion() {

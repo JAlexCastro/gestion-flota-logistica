@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -22,6 +23,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
+@WithMockUser(
+        username = "jalejandro.ecom@gmail.com",
+        roles = {"ADMIN"}
+)
 class EmisionGasesControllerTest {
 
     @Autowired
@@ -29,15 +34,6 @@ class EmisionGasesControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Test
-    void deberiaListarEmisiones() throws Exception {
-
-        mockMvc.perform(get("/emisiones-gases/list"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value(200))
-                .andExpect(jsonPath("$.message").value("Lista de emisiones de gases"));
-    }
 
     @Test
     void deberiaCrearEmision() throws Exception {
@@ -56,6 +52,17 @@ class EmisionGasesControllerTest {
                 .andExpect(jsonPath("$.message")
                         .value("Registro de emisión creado correctamente"));
     }
+
+
+    @Test
+    void deberiaListarEmisiones() throws Exception {
+
+        mockMvc.perform(get("/emisiones-gases/list"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(200))
+                .andExpect(jsonPath("$.message").value("Lista de emisiones de gases"));
+    }
+
 
     @Test
     void deberiaObtenerEmisionPorId() throws Exception {

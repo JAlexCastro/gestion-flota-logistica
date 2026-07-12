@@ -2,28 +2,36 @@ package cl.transcargo.gestion_flota.controller;
 
 import cl.transcargo.gestion_flota.dto.Requests.VehiculoRequestDTO;
 import cl.transcargo.gestion_flota.entity.Vehiculo;
+import cl.transcargo.gestion_flota.notification.NotificationService;
 import cl.transcargo.gestion_flota.repository.RVehiculo;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
 import org.springframework.http.MediaType;
+
+import org.springframework.security.test.context.support.WithMockUser;
+
 import org.springframework.test.web.servlet.MockMvc;
+
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
+@WithMockUser(
+        username = "jalejandro.ecom@gmail.com",
+        roles = {"ADMIN"}
+)
 class VehiculoControllerTest {
 
     @Autowired
@@ -35,6 +43,9 @@ class VehiculoControllerTest {
     @Autowired
     private RVehiculo vehiculoRepository;
 
+    @MockBean
+    private NotificationService notificationService;
+
     @Test
     void deberiaListarVehiculos() throws Exception {
 
@@ -42,6 +53,7 @@ class VehiculoControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(200))
                 .andExpect(jsonPath("$.message").value("Lista vehiculos"));
+
     }
 
     @Test
@@ -50,20 +62,24 @@ class VehiculoControllerTest {
         VehiculoRequestDTO request = new VehiculoRequestDTO();
 
         request.setPatente(generarPatente());
+        request.setNombre("Camión Toyota");
         request.setMarca("Toyota");
         request.setModelo("Yaris");
         request.setAnio(2023);
         request.setKilometrajeActual(12000);
         request.setEstado("Activo");
 
-        mockMvc.perform(post("/vehiculos/save")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk()) // Cambiar a isCreated() cuando el controlador retorne ResponseEntity.status(201)
+        mockMvc.perform(
+                        post("/vehiculos/save")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.status").value(201))
                 .andExpect(jsonPath("$.message").value("Vehiculo guardado"))
                 .andExpect(jsonPath("$.data.marca").value("Toyota"))
                 .andExpect(jsonPath("$.data.modelo").value("Yaris"));
+
     }
 
     @Test
@@ -74,6 +90,7 @@ class VehiculoControllerTest {
         mockMvc.perform(get("/vehiculos/get/" + vehiculo.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(200));
+
     }
 
     @Test
@@ -84,20 +101,25 @@ class VehiculoControllerTest {
         VehiculoRequestDTO request = new VehiculoRequestDTO();
 
         request.setPatente(generarPatente());
+        request.setNombre("Camión Kia");
         request.setMarca("Kia");
         request.setModelo("Rio");
         request.setAnio(2024);
         request.setKilometrajeActual(25000);
         request.setEstado("Activo");
 
-        mockMvc.perform(put("/vehiculos/update/" + vehiculo.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+        mockMvc.perform(
+                        put("/vehiculos/update/" + vehiculo.getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(200))
-                .andExpect(jsonPath("$.message").value("Vehículo actualizado correctamente"))
+                .andExpect(jsonPath("$.message")
+                        .value("Vehículo actualizado correctamente"))
                 .andExpect(jsonPath("$.data.marca").value("Kia"))
                 .andExpect(jsonPath("$.data.modelo").value("Rio"));
+
     }
 
     @Test
@@ -108,7 +130,9 @@ class VehiculoControllerTest {
         mockMvc.perform(delete("/vehiculos/delete/" + vehiculo.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(200))
-                .andExpect(jsonPath("$.message").value("Vehículo eliminado correctamente"));
+                .andExpect(jsonPath("$.message")
+                        .value("Vehículo eliminado correctamente"));
+
     }
 
     private Vehiculo crearVehiculo() {
@@ -116,6 +140,7 @@ class VehiculoControllerTest {
         Vehiculo vehiculo = new Vehiculo();
 
         vehiculo.setPatente(generarPatente());
+        vehiculo.setNombre("Camión Toyota");
         vehiculo.setMarca("Toyota");
         vehiculo.setModelo("Hilux");
         vehiculo.setAnio(2024);
@@ -123,14 +148,21 @@ class VehiculoControllerTest {
         vehiculo.setEstado("Activo");
 
         return vehiculoRepository.save(vehiculo);
+
     }
 
     private String generarPatente() {
 
-        return UUID.randomUUID()
+        String letras = UUID.randomUUID()
                 .toString()
                 .replace("-", "")
-                .substring(0, 8)
+                .substring(0, 4)
                 .toUpperCase();
+
+        int numeros = (int) (Math.random() * 90) + 10;
+
+        return letras + numeros;
+
     }
+
 }
