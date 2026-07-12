@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import RoleGuard from "../../components/Auth/RoleGuard";
 import Modal from "../../components/Modal/Modal";
 import FallaForm from "./FallaForm";
 import FallaTable from "./FallaTable";
@@ -48,15 +49,15 @@ function FallasPage() {
 
                 <h1>Fallas</h1>
 
-                <button
-                    className="btn-primary"
-                    onClick={() => {
-                        setEdit(null);
-                        setOpen(true);
-                    }}
-                >
-                    Nueva Falla
-                </button>
+                    <button
+                        className="btn-primary"
+                        onClick={() => {
+                            setEdit(null);
+                            setOpen(true);
+                        }}
+                    >
+                        Nueva Falla
+                    </button>
 
             </div>
 
@@ -72,16 +73,20 @@ function FallasPage() {
                 }}
             />
 
-            <Modal
-                isOpen={open}
-                title={edit ? "Editar Falla" : "Nueva Falla"}
-                onClose={() => setOpen(false)}
-            >
-                <FallaForm
-                    falla={edit}
-                    onSubmit={handleSubmit}
-                />
-            </Modal>
+            <RoleGuard roles={["ADMIN", "OPERADOR"]}>
+
+                <Modal
+                    isOpen={open}
+                    title={edit ? "Editar Falla" : "Nueva Falla"}
+                    onClose={() => setOpen(false)}
+                >
+                    <FallaForm
+                        falla={edit}
+                        onSubmit={handleSubmit}
+                    />
+                </Modal>
+
+            </RoleGuard>
 
         </div>
 

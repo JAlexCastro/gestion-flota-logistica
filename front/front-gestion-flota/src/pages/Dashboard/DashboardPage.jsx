@@ -30,47 +30,82 @@ function DashboardPage() {
 
 
     const cargarDashboard = async () => {
+
         try {
-            const [
-                vehiculosData,
-                conductoresData,
-                mantencionesData,
-                fallasData,
-                soapsData,
-                revisionesData,
-                permisosData,
-                emisionesData
 
-            ] = await Promise.all([
+            const rol = localStorage.getItem("rol");
 
-                listarVehiculos(),
-                listarConductores(),
-                listarMantenciones(),
-                listarFallas(),
-                listarSoap(),
-                listarRevisiones(),
-                listarPermisos(),
-                listarEmisiones()
+            if (rol === "CONDUCTOR") {
 
-            ]);
-            console.log(vehiculosData);
-            console.log(conductoresData);
-            console.log(mantencionesData);
-            console.log(fallasData);
-            console.log(soapsData);
-            console.log(revisionesData);
-            console.log(permisosData);
-            console.log(emisionesData);
+                const [
 
-            setVehiculos(vehiculosData.data || []);
-            setConductores(conductoresData.data || []);
-            setMantenciones(mantencionesData.data || []);
-            setFallas(fallasData.data || []);
+                    vehiculosData,
+                    mantencionesData,
+                    fallasData,
+                    soapsData,
+                    revisionesData,
+                    permisosData,
+                    emisionesData
 
-            setSoaps(soapsData.data || []);
-            setRevisiones(revisionesData.data || []);
-            setPermisos(permisosData.data || []);
-            setEmisiones(emisionesData.data || []);
+                ] = await Promise.all([
+
+                    listarVehiculos(),
+                    listarMantenciones(),
+                    listarFallas(),
+                    listarSoap(),
+                    listarRevisiones(),
+                    listarPermisos(),
+                    listarEmisiones()
+
+                ]);
+
+                setVehiculos(vehiculosData.data || []);
+                setConductores([]); // No consulta conductores
+                setMantenciones(mantencionesData.data || []);
+                setFallas(fallasData.data || []);
+
+                setSoaps(soapsData.data || []);
+                setRevisiones(revisionesData.data || []);
+                setPermisos(permisosData.data || []);
+                setEmisiones(emisionesData.data || []);
+
+            } else {
+
+                const [
+
+                    vehiculosData,
+                    conductoresData,
+                    mantencionesData,
+                    fallasData,
+                    soapsData,
+                    revisionesData,
+                    permisosData,
+                    emisionesData
+
+                ] = await Promise.all([
+
+                    listarVehiculos(),
+                    listarConductores(),
+                    listarMantenciones(),
+                    listarFallas(),
+                    listarSoap(),
+                    listarRevisiones(),
+                    listarPermisos(),
+                    listarEmisiones()
+
+                ]);
+
+                setVehiculos(vehiculosData.data || []);
+                setConductores(conductoresData.data || []);
+                setMantenciones(mantencionesData.data || []);
+                setFallas(fallasData.data || []);
+
+                setSoaps(soapsData.data || []);
+                setRevisiones(revisionesData.data || []);
+                setPermisos(permisosData.data || []);
+                setEmisiones(emisionesData.data || []);
+
+            }
 
         } catch (error) {
 
@@ -89,7 +124,6 @@ function DashboardPage() {
         return Math.ceil(
             (vencimiento - hoy) / (1000 * 60 * 60 * 24)
         );
-
     };
 
     //=============================
@@ -188,11 +222,6 @@ function DashboardPage() {
                     color="#e53935"
                 />
 
-                <DashboardCard
-                    title="Conductores"
-                    value={conductores.length}
-                    icon="👨‍✈️"
-                />
 
                 <DashboardCard
                     title="Mantenciones"

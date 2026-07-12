@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import RoleGuard from "../../components/Auth/RoleGuard";
 import "./RevisionesPage.css";
 
 import ListadoDocumentacion from "./ListadoDocumentacion";
@@ -21,26 +21,33 @@ function RevisionesPage() {
             <div className="toolbar-documentacion">
 
                 <button
-                    className={vista === "listar" ? "toolbar-btn active" : "toolbar-btn"}
-                    onClick={() => setVista("listar")}
-                >
-                    Listar
-                </button>
+    className={vista === "listar" ? "toolbar-btn active" : "toolbar-btn"}
+    onClick={() => setVista("listar")}
+>
+    Listar
+</button>
 
-                <button
-                    className={vista === "registrar" ? "toolbar-btn active" : "toolbar-btn"}
-                    onClick={() => setVista("registrar")}
-                >
-                    Registrar
-                </button>
+<RoleGuard roles={["ADMIN", "OPERADOR"]}>
 
-                <button
-                    className={vista === "actualizar" ? "toolbar-btn active" : "toolbar-btn"}
-                    onClick={() => setVista("actualizar")}
-                >
-                    Actualizar
-                </button>
+    <button
+        className={vista === "registrar" ? "toolbar-btn active" : "toolbar-btn"}
+        onClick={() => setVista("registrar")}
+    >
+        Registrar
+    </button>
 
+</RoleGuard>
+
+<RoleGuard roles={["ADMIN", "OPERADOR"]}>
+
+    <button
+        className={vista === "actualizar" ? "toolbar-btn active" : "toolbar-btn"}
+        onClick={() => setVista("actualizar")}
+    >
+        Actualizar
+    </button>
+
+</RoleGuard>
             </div>
 
             {
@@ -60,9 +67,7 @@ function RevisionesPage() {
             }
 
         </div>
-
     );
-
 }
 
 export default RevisionesPage;

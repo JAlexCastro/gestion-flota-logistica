@@ -6,56 +6,74 @@ function Sidebar() {
 
     const { sidebarOpen } = useLayout();
 
+    const rol = localStorage.getItem("rol");
+
     return (
+
         <aside className={`sidebar ${sidebarOpen ? "open" : "collapsed"}`}>
 
+            {/* Dashboard */}
             <Link to="/">
-
                 <span className="icon">🏠</span>
                 <span className="text">Dashboard</span>
-
             </Link>
 
+            {/* Vehículos */}
             <Link to="/vehiculos">
-
                 <span className="icon">🚛</span>
                 <span className="text">Vehículos</span>
-
             </Link>
 
-            <Link to="/conductores">
+            {/* Conductores (Solo ADMIN) */}
+            {
+                rol === "ADMIN" && (
+                    <Link to="/conductores">
+                        <span className="icon">👨</span>
+                        <span className="text">Conductores</span>
+                    </Link>
+                )}
+            {/* Usuarios (Solo ADMIN) */}
 
-                <span className="icon">👨</span>
-                <span className="text">Conductores</span>
+            {rol === "ADMIN" && (
+                    <Link to="/usuarios">
+                        <span className="icon">👤</span>
+                        <span className="text">Usuarios</span>
 
-            </Link>
+                    </Link>
+                )
+            }
 
-            <Link to="/usuarios">
-
-                <span className="icon">👤</span>
-                <span className="text">Usuarios</span>
-
-            </Link>
+            {/* Mantenciones */}
 
             <Link to="/mantenciones">
 
                 <span className="icon">🔧</span>
                 <span className="text">Mantenciones</span>
+
             </Link>
+
+            {/* Documentación */}
 
             <Link to="/revisiones">
+
                 <span className="icon">📋</span>
                 <span className="text">Documentación</span>
+
             </Link>
 
-            
+            {/* Fallas */}
+
             <Link to="/fallas">
+
                 <span className="icon">⚠️</span>
                 <span className="text">Fallas</span>
+
             </Link>
 
         </aside>
+
     );
+
 }
 
 export default Sidebar;

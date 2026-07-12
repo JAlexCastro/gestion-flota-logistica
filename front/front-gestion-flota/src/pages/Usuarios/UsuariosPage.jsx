@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import RoleGuard from "../../components/Auth/RoleGuard";
 import Modal from "../../components/Modal/Modal";
 import UsuarioForm from "./UsuarioForm";
 import UsuarioTable from "./UsuarioTable";
@@ -63,17 +63,18 @@ function UsuariosPage() {
             <div className="page-header">
 
                 <h1>Usuarios</h1>
-
-                <button
-                    className="btn-primary"
-                    onClick={() => {
-                        setEdit(null);
-                        setOpen(true);
-                    }}
-                >
-                    Nuevo Usuario
-                </button>
-
+        
+                <RoleGuard roles={["ADMIN"]}>
+                    <button
+                        className="btn-primary"
+                        onClick={() => {
+                            setEdit(null);
+                            setOpen(true);
+                        }}
+                    >
+                        Nuevo Usuario
+                    </button>
+                </RoleGuard>
             </div>
 
             <UsuarioTable

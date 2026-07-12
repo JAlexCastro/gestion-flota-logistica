@@ -1,5 +1,6 @@
 import Table from "../../components/Table/Table";
 import { useNavigate } from "react-router-dom";
+import RoleGuard from "../../components/Auth/RoleGuard";
 
 function MantencionTable({ mantenciones, onEdit, onDelete }) {
 
@@ -55,32 +56,40 @@ function MantencionTable({ mantenciones, onEdit, onDelete }) {
 
                         <td>
 
-                            <div className="table-actions">
+    <div className="table-actions">
 
-                                <button
-                                    className="btn-edit"
-                                    onClick={() => navigate(`/vehiculos`)}>
-                                    Ver
-                                </button>
-                                
-                                <button
-                                    className="btn-edit"
-                                    onClick={() => onEdit(m)}
-                                >
-                                    Editar
-                                </button>
+        <button
+            className="btn-edit"
+            onClick={() => navigate("/vehiculos")}
+        >
+            Ver
+        </button>
 
-                                <button
-                                    className="btn-delete"
-                                    onClick={() => onDelete(m.id)}
-                                >
-                                    Eliminar
-                                </button>
+        <RoleGuard roles={["ADMIN", "OPERADOR"]}>
 
+            <button
+                className="btn-edit"
+                onClick={() => onEdit(m)}
+            >
+                Editar
+            </button>
 
-                            </div>
+        </RoleGuard>
 
-                        </td>
+        <RoleGuard roles={["ADMIN"]}>
+
+            <button
+                className="btn-delete"
+                onClick={() => onDelete(m.id)}
+            >
+                Eliminar
+            </button>
+
+        </RoleGuard>
+
+    </div>
+
+</td>
 
                     </tr>
 

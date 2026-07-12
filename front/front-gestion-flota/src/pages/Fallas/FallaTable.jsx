@@ -1,4 +1,5 @@
 import Table from "../../components/Table/Table";
+import RoleGuard from "../../components/Auth/RoleGuard";
 
 function FallaTable({ fallas, onEdit, onDelete }) {
 
@@ -13,7 +14,9 @@ function FallaTable({ fallas, onEdit, onDelete }) {
                     <th>Descripción</th>
                     <th>Prioridad</th>
                     <th>Estado</th>
-                    <th>Acciones</th>
+                    <RoleGuard roles={["ADMIN", "OPERADOR"]}>
+                        <th>Acciones</th>
+                    </RoleGuard>
                 </tr>
             </thead>
 
@@ -32,23 +35,26 @@ function FallaTable({ fallas, onEdit, onDelete }) {
                         <td>
                             <div className="table-actions">
 
-                                <button
-                                    className="btn-edit"
-                                    onClick={() => onEdit(f)}
-                                >
-                                    Editar
-                                </button>
+                                <RoleGuard roles={["ADMIN", "OPERADOR"]}>
+                                    <button
+                                        className="btn-edit"
+                                        onClick={() => onEdit(f)}
+                                    >
+                                        Editar
+                                    </button>
+                                </RoleGuard>
 
-                                <button
-                                    className="btn-delete"
-                                    onClick={() => onDelete(f.id)}
-                                >
-                                    Eliminar
-                                </button>
+                                <RoleGuard roles={["ADMIN"]}>
+                                    <button
+                                        className="btn-delete"
+                                        onClick={() => onDelete(f.id)}
+                                    >
+                                        Eliminar
+                                    </button>
+                                </RoleGuard>
 
                             </div>
                         </td>
-
                     </tr>
 
                 ))}

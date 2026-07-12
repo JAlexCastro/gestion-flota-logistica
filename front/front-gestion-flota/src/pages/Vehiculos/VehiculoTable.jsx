@@ -1,4 +1,5 @@
 import Table from "../../components/Table/Table";
+import RoleGuard from "../../components/Auth/RoleGuard";
 
 function VehiculoTable({ vehiculos, onEdit, onDelete, onAsignar }) {
 
@@ -17,7 +18,9 @@ function VehiculoTable({ vehiculos, onEdit, onDelete, onAsignar }) {
                     <th>Año</th>
                     <th>Km Actual</th>
                     <th>Conductor Asignado</th>
-                    <th>Acciones</th>
+                    <RoleGuard roles={["ADMIN", "OPERADOR"]}>
+                        <th>Acciones</th>
+                    </RoleGuard>
 
                 </tr>
 
@@ -41,26 +44,38 @@ function VehiculoTable({ vehiculos, onEdit, onDelete, onAsignar }) {
 
                             <div className="table-actions">
 
-                                <button
-                                    className="btn-edit"
-                                    onClick={() => onEdit(v)}
-                                >
-                                    Editar
-                                </button>
+                                <RoleGuard roles={["ADMIN", "OPERADOR"]}>
 
-                                <button
-                                    className="btn-delete"
-                                    onClick={() => onDelete(v.id)}
-                                >
-                                    Eliminar
-                                </button>
+                                    <button
+                                        className="btn-edit"
+                                        onClick={() => onEdit(v)}
+                                    >
+                                        Editar
+                                    </button>
 
-                                <button
-                                    className="btn-select"
-                                    onClick={() => onAsignar(v)}
-                                >
-                                    Asignar Conductor
-                                </button>
+                                </RoleGuard>
+
+                                <RoleGuard roles={["ADMIN"]}>
+
+                                    <button
+                                        className="btn-delete"
+                                        onClick={() => onDelete(v.id)}
+                                    >
+                                        Eliminar
+                                    </button>
+
+                                </RoleGuard>
+
+                                <RoleGuard roles={["ADMIN", "OPERADOR"]}>
+
+                                    <button
+                                        className="btn-select"
+                                        onClick={() => onAsignar(v)}
+                                    >
+                                        Asignar Conductor
+                                    </button>
+
+                                </RoleGuard>
 
                             </div>
 

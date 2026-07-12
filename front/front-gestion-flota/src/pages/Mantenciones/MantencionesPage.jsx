@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import RoleGuard from "../../components/Auth/RoleGuard";
 
 import Modal from "../../components/Modal/Modal";
 import MantencionForm from "./MantencionForm";
 import MantencionTable from "./MantencionTable";
+
+import RoleGuard from "../../components/Auth/RoleGuard";
 
 import {
     listarMantenciones,

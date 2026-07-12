@@ -9,14 +9,16 @@ function Navbar() {
     const navigate = useNavigate();
 
     const usuario = localStorage.getItem("usuario");
+    const rol = localStorage.getItem("rol");
 
     const cerrarSesion = () => {
 
         localStorage.removeItem("token");
         localStorage.removeItem("usuario");
+        localStorage.removeItem("username");
+        localStorage.removeItem("rol");
 
         navigate("/login");
-
     };
 
     return (
@@ -31,34 +33,30 @@ function Navbar() {
                 >
                     ☰
                 </button>
-
                 <h2>Gestión de Flota</h2>
-
             </div>
 
             <div className="right">
-
                 <span className="usuario">
-
                     👤 {usuario}
-
                 </span>
+
+
+                <small>
+
+                    {rol}
+
+                </small>
 
                 <button
                     className="logout-btn"
                     onClick={cerrarSesion}
                 >
-
                     Cerrar sesión
-
                 </button>
-
             </div>
-
         </header>
-
     );
-
 }
 
 export default Navbar;
