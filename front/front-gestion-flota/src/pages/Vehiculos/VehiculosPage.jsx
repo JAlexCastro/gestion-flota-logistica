@@ -141,69 +141,47 @@ function VehiculosPage() {
                 <div className="actualizar-km-card">
 
                     <h3>
-
                         Actualizar Kilometraje
-
                     </h3>
 
                     <div className="actualizar-km-form">
 
                         <select
-
                             value={vehiculoSeleccionado}
-
                             onChange={(e) =>
                                 setVehiculoSeleccionado(e.target.value)
                             }
-
                         >
-
                             <option value="">
-
                                 Seleccione un vehículo
-
                             </option>
-
                             {
-
                                 vehiculos.map((v) => (
-
                                     <option
                                         key={v.id}
                                         value={v.id}
                                     >
-
                                         {v.nombre} - {v.patente}
-
                                     </option>
-
                                 ))
-
                             }
 
                         </select>
 
                         <input
-
                             type="number"
-
                             placeholder="Kilometraje actual"
-
                             value={kilometraje}
-
                             onChange={(e) =>
                                 setKilometraje(e.target.value)
                             }
-
                         />
 
                         <button
                             className="btn-primary"
                             onClick={actualizarKilometraje}
                         >
-
                             Actualizar
-
                         </button>
 
                     </div>
