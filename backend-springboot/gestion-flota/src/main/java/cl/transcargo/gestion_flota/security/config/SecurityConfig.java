@@ -2,6 +2,7 @@ package cl.transcargo.gestion_flota.security.config;
 
 import cl.transcargo.gestion_flota.security.jwt.JwtFilter;
 import cl.transcargo.gestion_flota.security.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -47,14 +48,15 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
 
     }
+    @Value("${app.cors.allowed-origins}")
+    private List<String> allowedOrigins;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(
-                List.of("http://localhost:3000"));
+        configuration.setAllowedOrigins(allowedOrigins);
 
         configuration.setAllowedMethods(
                 List.of("GET","POST","PUT","DELETE","OPTIONS"));
@@ -63,13 +65,14 @@ public class SecurityConfig {
                 List.of("*"));
 
         configuration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
+
         source.registerCorsConfiguration("/**", configuration);
 
         return source;
-
     }
-
     /**
      * Configuración de seguridad de la aplicación.
      */

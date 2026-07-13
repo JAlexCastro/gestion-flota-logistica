@@ -12,7 +12,7 @@ public class GestionFlotaApplication {
 
 		//BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-		//System.out.println("******* Contrasena Manuel: " + encoder.encode("contrasena"));
+		//System.out.println("******* Contrasena Alejandro: " + encoder.encode("contrasena"));
 		//System.out.println("******* Contrasena Carlos A.: " + encoder.encode("contrasena"));
 
 	}
