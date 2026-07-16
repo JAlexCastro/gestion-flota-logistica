@@ -19,6 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import jakarta.annotation.PostConstruct;
+import java.util.Arrays;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +33,21 @@ public class SecurityConfig {
 
     @Value("${app.cors.allowed-origins}")
     private String allowedOrigins;
+
+    @PostConstruct
+    public void mostrarConfiguracionCors() {
+
+        System.out.println("==========================================");
+        System.out.println("ORIGIN_CROSS recibido:");
+        System.out.println(allowedOrigins);
+        System.out.println("Orígenes permitidos:");
+
+        Arrays.stream(allowedOrigins.split(","))
+                .map(String::trim)
+                .forEach(System.out::println);
+
+        System.out.println("==========================================");
+    }
 
     public SecurityConfig(JwtFilter jwtFilter,
                           CustomUserDetailsService userDetailsService) {
