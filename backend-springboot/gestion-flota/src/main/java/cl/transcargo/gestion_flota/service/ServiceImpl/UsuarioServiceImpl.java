@@ -7,6 +7,7 @@ import cl.transcargo.gestion_flota.mapper.UsuarioMapper;
 import cl.transcargo.gestion_flota.repository.RUsuario;
 import cl.transcargo.gestion_flota.service.IService.IUsuario;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +17,12 @@ public class UsuarioServiceImpl implements IUsuario {
 
     private final RUsuario repository;
     private final UsuarioMapper mapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioServiceImpl(RUsuario repository, UsuarioMapper mapper){
+    public UsuarioServiceImpl(RUsuario repository, UsuarioMapper mapper,PasswordEncoder passwordEncoder){
         this.repository = repository;
         this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -45,6 +48,9 @@ public class UsuarioServiceImpl implements IUsuario {
 
         Usuario usuario = mapper.toEntity(request);
 
+        usuario.setPassword(
+                passwordEncoder.encode(request.getPassword()) );
+
         usuario = repository.save(usuario);
 
         return mapper.toResponse(usuario);
@@ -57,6 +63,14 @@ public class UsuarioServiceImpl implements IUsuario {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         mapper.updateEntity(usuario, request);
+
+        if (request.getPassword() != null &&
+                !request.getPassword().isBlank()) {
+
+            usuario.setPassword(
+                    passwordEncoder.encode(request.getPassword())
+            );
+        } //Si el usuario escribe una nueva contraseña, se cifra.
 
         usuario = repository.save(usuario);
 

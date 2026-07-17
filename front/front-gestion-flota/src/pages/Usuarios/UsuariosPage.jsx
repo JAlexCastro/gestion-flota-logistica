@@ -96,9 +96,7 @@ function UsuariosPage() {
                     onSubmit={handleSubmit}
                 />
             </Modal>
-
         </div>
-
     );
 }
 

@@ -18,6 +18,9 @@ function ConductorForm({ onSubmit, conductor }) {
 
     useEffect(() => {
 
+        console.log("Conductor recibido:", conductor);
+
+
         if (conductor) {
             setForm(conductor);
         } else {
