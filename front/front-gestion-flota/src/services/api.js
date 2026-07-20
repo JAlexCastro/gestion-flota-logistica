@@ -2,7 +2,7 @@ import axios from "axios";
 
 ///const api = axios.create({ baseURL: "http://localhost:8080" });
 
-const api = axios.create({ baseURL: "https://gestion-flota-logistica.onrender.com" });
+const api = axios.create({ baseURL: "https://gestion-flota-logistica.vercel.app" });
 
 // Agrega el JWT a todas las peticiones
 api.interceptors.request.use(
